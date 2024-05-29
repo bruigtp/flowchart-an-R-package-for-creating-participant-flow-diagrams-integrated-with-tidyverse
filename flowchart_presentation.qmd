@@ -800,9 +800,9 @@ Cristian <br>Tebé
 :::
 :::
 
-Reach out to us in github with any issue you might have:
-
-<center>`r fontawesome::fa("github")` [github.com/bruigtp/flowchart/issues](https://github.com/bruigtp/flowchart/issues)</center>
+<center>
+`r fontawesome::fa("github")` [github.com/bruigtp](https://github.com/bruigtp/)
+</center>
 
 ## 
 
