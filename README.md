@@ -6,4 +6,4 @@ This is a repository containing all the code and all the slides of the presentat
 
 The package can be found in this GitHub repository: 
 
-https://github.com/bruigtp/flowchart.
+https://github.com/bruigtp/flowchart
