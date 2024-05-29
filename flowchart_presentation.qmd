@@ -1,0 +1,814 @@
+---
+title: "{flowchart}: an R package for creating participant flow diagrams integrated with tidyverse"
+author: "Pau Satorra"
+institute: 
+  - "Germans Trias i Pujol Research Institute and Hospital (IGTP)<br> Badalona, Spain"
+date: "2024-06-13"
+date-format: long
+format:
+  revealjs:
+    code-line-numbers: false
+    footer: "R/Medicine - {flowchart}"
+    logo: WWW/logo.png
+    css: WWW/styles.css
+    template-partials:
+      - WWW/title-slide.html
+---
+
+# Introduction
+
+## Background
+
+-   The number of subjects analyzed in a health research study must be clear, and the process transparent
+
+-   The CONSORT, STROBE and ICH guidelines reflect this need
+
+-   The preferred way to present this patient flow through the different phases is a flowchart (also called flow diagram)
+
+-   The creation of the flowchart is a joint task between the data management team and the statisticians
+
+## Motivation
+
+-   There are several R packages dedicated to building flowcharts: {Gmisc}, {DiagrammeR}, {consort}, {ggflowchart}
+
+- Complex programming and manual parameterization are often involved
+
+- Some are designed for building other kind of diagrams
+
+## Motivation  {.smaller}
+
+-   Example of {Gmisc} code to build a simple flowchart
+
+<div style = "margin-top: -2%"></div>
+<a href = "https://cran.r-project.org/web/packages/Gmisc/vignettes/Grid-based_flowcharts.html">https://cran.r-project.org/web/packages/Gmisc/vignettes/Grid-based_flowcharts.html</a>
+
+```{r echo=TRUE, fig.align = "center", fig.height = 5, fig.width = 5, out.width = 400}
+#| output-location: "column"
+
+library(Gmisc, quietly = TRUE)
+library(glue)
+library(htmlTable)
+library(grid)
+library(magrittr)
+
+org_cohort <- boxGrob(glue("Stockholm population",
+                           "n = {pop}",
+                           pop = txtInt(1632798),
+                           .sep = "\n"))
+eligible <- boxGrob(glue("Eligible",
+                          "n = {pop}",
+                           pop = txtInt(10032),
+                           .sep = "\n"))
+included <- boxGrob(glue("Randomized",
+                         "n = {incl}",
+                         incl = txtInt(122),
+                         .sep = "\n"))
+grp_a <- boxGrob(glue("Treatment A",
+                      "n = {recr}",
+                      recr = txtInt(43),
+                      .sep = "\n"))
+
+grp_b <- boxGrob(glue("Treatment B",
+                      "n = {recr}",
+                      recr = txtInt(122 - 43 - 30),
+                      .sep = "\n"))
+
+excluded <- boxGrob(glue("Excluded (n = {tot}):",
+                         " - not interested: {uninterested}",
+                         " - contra-indicated: {contra}",
+                         tot = 30,
+                         uninterested = 12,
+                         contra = 30 - 12,
+                         .sep = "\n"),
+                    just = "left")
+
+grid.newpage()
+vert <- spreadVertical(org_cohort,
+                       eligible = eligible,
+                       included = included,
+                       grps = grp_a)
+grps <- alignVertical(reference = vert$grps,
+                      grp_a, grp_b) %>%
+  spreadHorizontal()
+vert$grps <- NULL
+
+excluded <- moveBox(excluded,
+                    x = .8,
+                    y = coords(vert$included)$top + distance(vert$eligible, vert$included, half = TRUE, center = FALSE))
+
+for (i in 1:(length(vert) - 1)) {
+  connectGrob(vert[[i]], vert[[i + 1]], type = "vert") %>%
+    print
+}
+connectGrob(vert$included, grps[[1]], type = "N")
+connectGrob(vert$included, grps[[2]], type = "N")
+
+connectGrob(vert$eligible, excluded, type = "L")
+
+# Print boxes
+vert
+grps
+excluded
+```
+
+## {flowchart} package {.smaller}
+
+-   Creates reproducible flowcharts from a dataset in an easy way
+
+-   Provides a set of functions that can be combined with the pipe operator (\|\> or %\>%)
+
+<center>
+
+![flowchart CRAN page](WWW/flowchart_CRAN.png){width="90%"}
+
+</center>
+
+## Overview
+
+::: columns
+::: {.column width="50%"}
+-   Create a flowchart
+
+    -   `as_fc()`
+
+    -   `fc_draw()`
+
+    -   `fc_split()`
+
+    -   `fc_filter()`
+    
+-   Customize flowcharts
+
+    -   `fc_modify()`
+:::
+
+::: {.column width="50%"}
+-   Combine flowcharts
+
+    -   `fc_merge()`
+
+    -   `fc_stack()`
+
+-   Export flowcharts
+
+    -   `fc_export()`
+:::
+:::
+
+## `safo` dataset {.smaller}
+
+-   Built-in dataset 
+
+-   Randomly generated dataset from the SAFO clinical trial[^1]
+
+[^1]: Grillo, S., Pujol, M., Miró, J.M. et al. Cloxacillin plus fosfomycin versus cloxacillin alone for methicillin-susceptible <i>Staphylococcus aureus</i> bacteremia: a randomized trial. Nat Med 29, 2518--2525 (2023)
+
+```{r echo=FALSE}
+library(flowchart)
+library(tidyverse)
+head(safo[, c("id", "inclusion_crit", "exclusion_crit", "decline_part", "group", "itt", "pp")]) |> 
+  gt::gt() |> 
+  gt::cols_align("center")
+```
+
+# Create a flowchart
+
+## `as_fc()` 
+
+-   Allows to initialize a dataset in the class `fc` created for this package
+
+-   Creates a flowchart with an initial box showing the total number of rows of the dataset
+
+```{r echo=TRUE}
+library(flowchart)
+
+safo_fc <- safo |> 
+  as_fc()
+```
+
+## `as_fc()` {auto-animate="true"}
+
+-   Allows to initialize a dataset in the class `fc` created for this package
+
+-   Creates a flowchart with an initial box showing the total number of rows of the dataset
+
+```{r echo=TRUE}
+library(flowchart)
+
+safo_fc <- safo |> 
+  as_fc()
+
+str(safo_fc, max.level = 1)
+```
+
+
+## `as_fc()` {.smaller auto-animate="true"}
+
+::: {style="position: absolute; left: 50%; top: 50%;-webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);"}
+
+`safo_fc$fc`
+
+```{r echo=FALSE}
+safo_fc$fc |> gt::gt()
+```
+
+:::
+
+## `fc_draw()`
+
+-   Allows to draw a previously created `fc` object
+
+```{r echo=TRUE, eval=FALSE}
+safo |> 
+  as_fc()
+```
+
+## `fc_draw()` {auto-animate="true"}
+
+-   Allows to draw a previously created `fc` object
+
+```{r echo=TRUE, fig.width = 5, fig.height = 2, fig.align = "center"}
+safo |> 
+  as_fc() |> 
+  fc_draw()
+```
+
+## `fc_draw()` {auto-animate="true"}
+
+-   Allows to draw a previously created `fc` object
+
+```{r echo=TRUE, fig.width = 4, fig.height = 2, fig.align = "center"}
+#| classes: custom2
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |> 
+  fc_draw()
+```
+
+-   We can use the `label` argument to modify the box label
+
+## `fc_filter()` 
+
+-   We can filter an existing flowchart specifying the logic in which the filter is to be applied
+
+```{r echo=TRUE, fig.width = 3, fig.height = 2, out.width = "600"}
+#| classes: custom2
+#| output-location: "column"
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |> 
+  fc_draw()
+```
+
+## `fc_filter()` {auto-animate="true"}
+
+-   We can filter an existing flowchart specifying the logic in which the filter is to be applied
+
+```{r echo=TRUE, fig.width = 3, fig.height = 3, out.width = "600"}
+#| classes: custom
+#| output-location: "column"
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group)) |> 
+  fc_draw()
+```
+
+## `fc_filter()` {auto-animate="true"}
+
+-   We can filter an existing flowchart specifying the logic in which the filter is to be applied
+
+```{r echo=TRUE, fig.width = 3, fig.height = 3, out.width = "600"}
+#| classes: custom
+#| output-location: "column"
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized") |> 
+  fc_draw()
+```
+
+::: {style="margin-top: -15%;"}
+-   We can change again the `label`
+:::
+
+## `fc_filter()` {auto-animate="true"}
+
+-   We can filter an existing flowchart specifying the logic in which the filter is to be applied
+
+```{r echo=TRUE, fig.width = 4, fig.height = 4, out.width = "800"}
+#| classes: custom2
+#| output-location: "column"
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
+  fc_draw()
+```
+
+::: {style="margin-top: -15%;"}
+-   We can change again the `label`
+
+-   We can use `show_exc=TRUE` to show the excluded rows
+:::
+
+## `fc_split()` 
+
+-   We can split an existing flowchart according to the different values of a column
+
+```{r echo=TRUE, fig.width = 4, fig.height = 4, out.width = "800"}
+#| classes: custom
+#| output-location: "column"
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
+  fc_draw()
+```
+
+## `fc_split()` {auto-animate="true"}
+
+-   We can split an existing flowchart according to the different values of a column
+
+```{r echo=TRUE, fig.width = 4, fig.height = 5, out.width = "600"}
+#| classes: custom
+#| output-location: "column"
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
+  fc_split(group) |> 
+  fc_draw()
+```
+
+# Customize flowcharts
+
+## Modify function arguments
+
+::: {style="font-size: 27px;"}
+-   Arguments common to `as_fc()`, `fc_filter()` and `fc_split()`, to customise the appearance of the boxes created at each step
+
+<table>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> `N=` </td>
+   <td style="text-align:left;"> manually specify the numbers to display in the boxes.</td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `label=` </td>
+   <td style="text-align:left;"> modify the label. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `text_pattern=` </td>
+   <td style="text-align:left;"> modify the pattern of the text (e.g. `{label}\n {n} ({perc}%)`. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `just=` </td>
+   <td style="text-align:left;"> modify the justification for the text. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `text_color=` </td>
+   <td style="text-align:left;"> modify the color of the text. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `text_fs=` </td>
+   <td style="text-align:left;"> modify the font size of the text. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `bg_fill=` </td>
+   <td style="text-align:left;"> modify the background color of the box. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `border_color=` </td>
+   <td style="text-align:left;"> modify the border color of the box. </td>
+  </tr>
+</tbody>
+</table>
+:::
+
+## Modify function arguments
+
+::: {style="font-size: 27px;"}
+-   Customize `fc_filter()` function
+
+<table>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> `sel_group=` </td>
+   <td style="text-align:left;"> apply the filter only in the specified groups (if flowchart has been splitted before). </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `round_digits=` </td>
+   <td style="text-align:left;"> modify the number of digits to round percentages. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `show_exc=` </td>
+   <td style="text-align:left;"> show the box with the excluded rows that do not match the filter. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `direction_exc=` </td>
+   <td style="text-align:left;"> change the direction of the exclusion box (left or right). </td>
+  </tr>
+</tbody>
+</table>
+
+::: {style="margin-top:3%"}
+- Other parameters for the customization of the excluded box
+:::
+
+:::
+
+
+## Modify function arguments
+
+::: {style="font-size: 27px;"}
+-   Customize `fc_split()` function
+
+<table>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> `sel_group=` </td>
+   <td style="text-align:left;"> split the flowchart only in the specified groups (if flowchart has been splitted before). </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `round_digits=` </td>
+   <td style="text-align:left;"> modify the number of digits to round percentages. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `na.rm=` </td>
+   <td style="text-align:left;"> omit the missing values in the grouping variable. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `show_zero=` </td>
+   <td style="text-align:left;"> omit the levels of the grouping variable that don't have data. </td>
+  </tr>
+</tbody>
+</table>
+:::
+
+## Modify function arguments
+
+::: {style="font-size: 27px;"}
+-   Customize `fc_draw()` function
+
+<table>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> `arrow_angle=` </td>
+   <td style="text-align:left;"> angle of the arrow head in degrees. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `arrow_length=` </td>
+   <td style="text-align:left;"> unit specifying the length of the arrow head. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `arrow_ends=` </td>
+   <td style="text-align:left;"> specify the ends of the line to draw the arrow head (last/first/both). </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `arrow_type=` </td>
+   <td style="text-align:left;"> whether the arrow head should be a closed triangle. </td>
+  </tr>
+</tbody>
+</table>
+:::
+
+## `fc_modify()` {auto-animate="true"}
+
+-   We can modify the parameters of the created flowchart
+
+```{r echo=TRUE, fig.width = 4, fig.height = 5, out.width = "600"}
+#| classes: custom
+#| output-location: "column"
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
+  fc_draw()
+```
+
+## `fc_modify()` {auto-animate="true"}
+
+-   We can modify the parameters of the created flowchart
+
+```{r echo=TRUE, fig.width = 4, fig.height = 5, out.width = "600"}
+safo_fc <- safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE)
+
+safo_fc$fc |> 
+  gt::gt() 
+```
+
+## `fc_modify()` {auto-animate="true"}
+
+-   We can modify the parameters of the created flowchart
+
+```{r echo=TRUE, fig.width = 7, fig.height = 5, out.width = "1500"}
+#| classes: custom2
+#| output-location: "slide"
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
+  fc_modify(
+    ~ . |> 
+      mutate(
+        text = ifelse(id == 3, str_glue("- {sum(safo$inclusion_crit == 'Yes')} not met the inclusion criteria\n- {sum(safo$exclusion_crit == 'Yes')} met the exclusion criteria"), text),
+        x = ifelse(id == 3, 0.75, x)
+      )
+  ) |> 
+  fc_draw()
+```
+
+# Combine flowcharts
+
+## `fc_merge()` {auto-animate="true"}
+
+-   We can combine different flowcharts horizontally
+
+::: columns
+::: {.column width="50%"}
+```{r echo=TRUE, fig.width = 4, fig.height = 4, out.width = "1000"}
+#| classes: custom
+fc1 <- safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(itt == "Yes", label = "Intention to treat (ITT)")
+
+fc_draw(fc1)
+```
+:::
+
+::: {.column width="50%"}
+```{r echo=TRUE, fig.width = 4, fig.height = 4, out.width = "800"}
+#| classes: custom
+fc2 <- safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(pp == "Yes", label = "Per protocol (PP)")
+
+fc_draw(fc2)
+```
+:::
+:::
+
+## `fc_merge()` {auto-animate="true"}
+
+-   We can combine different flowcharts horizontally
+
+```{r echo=TRUE, eval=FALSE}
+list(fc1, fc2) |>
+  fc_merge()
+```
+
+## `fc_merge()` {auto-animate="true"}
+
+-   We can combine different flowcharts horizontally
+
+```{r echo=TRUE, fig.width = 5, fig.height = 4, out.width = "800"}
+#| classes: custom2
+list(fc1, fc2) |>
+  fc_merge() |>
+  fc_draw()
+```
+
+# Export flowcharts
+
+## `fc_export()` {auto-animate="true"}
+
+-   We can export the drawn flowchart to some of the most popular graphic devices: `png`, `jpeg`, `tiff` and `bmp`
+
+```{r echo= TRUE, eval = FALSE}
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
+  fc_draw() 
+```
+
+## `fc_export()` {auto-animate="true"}
+
+-   We can export the drawn flowchart to some of the most popular graphic devices: `png`, `jpeg`, `tiff` and `bmp`
+
+```{r echo=TRUE, eval = FALSE}
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
+  fc_draw() |> 
+  fc_export("flowchart.png")
+```
+
+## `fc_export()` {auto-animate="true"}
+
+-   We can export the drawn flowchart to some of the most popular graphic devices: `png`, `jpeg`, `tiff` and `bmp`
+
+```{r echo=TRUE, eval = FALSE}
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
+  fc_draw() |> 
+  fc_export("flowchart.png", width = 2500, height = 2000, res = 700)
+```
+
+-   We can customize the size and resolution of the image to save
+
+# Hands-on examples
+
+## Example 1 {auto-animate="true"}
+
+-   We will try to build a flowchart for the complete participant flow of the SAFO study trial
+
+## Example 1 {auto-animate="true"}
+
+```{r echo=TRUE, fig.width = 4, fig.height = 4, out.width = "600"}
+#| classes: custom
+#| output-location: "column"
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_draw()
+```
+
+## Example 1 {auto-animate="true"}
+
+```{r echo=TRUE, fig.width = 4, fig.height = 4, out.width = "600"}
+#| classes: custom
+#| output-location: "column"
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
+  fc_draw()
+```
+
+## Example 1 {auto-animate="true"}
+
+```{r echo=TRUE, fig.width = 4, fig.height = 5, out.width = "600"}
+#| classes: custom
+#| output-location: "column"
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
+  fc_split(group) |> 
+  fc_draw()
+```
+
+## Example 1 {auto-animate="true"}
+
+```{r echo=TRUE, fig.width = 4, fig.height = 7, out.width = "450"}
+#| classes: custom
+#| output-location: "column"
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
+  fc_split(group) |> 
+  fc_filter(itt == "Yes", label = "Included in ITT") |> 
+  fc_draw()
+```
+
+## Example 1 {auto-animate="true"}
+
+```{r echo=TRUE, fig.width = 4, fig.height = 7, out.width = "450"}
+#| classes: custom4
+#| output-location: "column"
+safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
+  fc_split(group) |> 
+  fc_filter(itt == "Yes", label = "Included in ITT") |> 
+  fc_filter(pp == "Yes", label = "Included in PP") |> 
+  fc_draw()
+```
+
+## Example 1 {auto-animate="true"}
+
+-   In the vignette there is the full example to exactly reproduce the flowchart found in the SAFO article:
+
+<center><small> Grillo, S., Pujol, M., Miró, J.M. et al. Cloxacillin plus fosfomycin versus cloxacillin alone for methicillin-susceptible <i>Staphylococcus aureus</i> bacteremia: a randomized trial. Nat Med 29, 2518--2525 (2023). <href>https://doi.org/10.1038/s41591-023-02569-0</href> </small></center>
+
+## Example 1
+
+<center>
+
+::: {style="margin-top: -7%; width: 55%; z-index:-5; position: relative;"}
+![](WWW/safo.png)
+:::
+
+</center>
+
+## Example 2 {auto-animate="true"}
+
+-   Now, we will create a flowchart without any dataset using the `N=` argument
+
+## Example 2 {auto-animate="true"}
+
+-   Now, we will create a flowchart without any dataset using the `N=` argument
+
+```{r echo=TRUE, fig.width = 3, fig.height = 3, out.width = "800"}
+#| classes: custom
+#| output-location: "column"
+as_fc(N = 300) |> 
+  fc_draw()
+```
+
+## Example 2 {auto-animate="true"}
+
+-   Now, we will create a flowchart without any dataset using the `N=` argument
+
+```{r echo=TRUE, fig.width = 4, fig.height = 4, out.width = "800"}
+#| classes: custom
+#| output-location: "column"
+as_fc(N = 300) |>
+  fc_filter(N = 240, label = "Randomized patients", show_exc = TRUE) |> 
+  fc_draw()
+```
+
+## Example 2 {auto-animate="true"}
+
+-   Now, we will create a flowchart without any dataset using the `N=` argument
+
+```{r echo=TRUE, fig.width = 4, fig.height = 5, out.width = "600"}
+#| classes: custom
+#| output-location: "column"
+as_fc(N = 300) |>
+  fc_filter(N = 240, label = "Randomized patients", show_exc = TRUE) |> 
+  fc_split(N = c(100, 80, 60), label = c("Group A", "Group B", "Group C")) |>
+  fc_draw()
+```
+
+## Example 2 {auto-animate="true"}
+
+-   Now, we will create a flowchart without any dataset using the `N=` argument
+
+```{r echo=TRUE, fig.width = 4, fig.height = 5.5, out.width = "400"}
+#| classes: custom5
+#| output-location: "column"
+as_fc(N = 300) |>
+  fc_filter(N = 240, label = "Randomized patients", show_exc = TRUE) |> 
+  fc_split(N = c(100, 80, 60), label = c("Group A", "Group B", "Group C")) |>
+  fc_filter(N = c(80, 75, 50), label = "Finished the study") |> 
+  fc_draw()
+```
+
+# Summary
+
+## Conclusions
+
+::: {style="font-size: 35px"}
+-   A clear and detailed reporting of the flow of participants in health research studies is required and recommended
+
+-   With this package, flowchart programming in R is made easier and accessible within the tidyverse workflow
+
+-   Flowchart reproducibility is assured
+
+-   As a limitation, we have not considered all possible scenarios and study designs, although is highly customizable
+
+-   As future developments:
+
+    -   Define style themes
+
+    -   Shiny application
+:::
+
+## More information
+
+-   You can visit the {flowchart} website
+
+<center>
+
+![https://bruigtp.github.io/flowchart/](WWW/flowchart_website.png){width="75%"}
+<small>
+<a href = "https://bruigtp.github.io/flowchart/">https://bruigtp.github.io/flowchart/</a>
+</small>
+
+</center>
+
+## Contact
+
+IGTP Biostatistics Support and Research Unit:
+
+::: columns
+::: {.column width="25%"}
+Pau <br>Satorra
+
+<small>Author, maintainer</small> <small><a href = "psatorra@igtp.cat">psatorra\@igtp.cat</a></small>
+:::
+
+::: {.column width="25%"}
+João Carmezim
+
+<small>Author</small>
+:::
+
+::: {.column width="25%"}
+Natàlia Pallarès
+
+<small>Author</small>
+:::
+
+::: {.column width="25%"}
+Cristian <br>Tebé
+
+<small>Author</small>
+:::
+:::
+
+Reach out to us in github with any issue you might have:
+
+<center>`r fontawesome::fa("github")` [github.com/bruigtp/flowchart/issues](https://github.com/bruigtp/flowchart/issues)</center>
+
+## 
+
+::: {style="position: absolute; left: 50%; top: 50%;-webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);"}
+<center>
+![](WWW/flowchart.png){width="75%"}
+<h2>Thank you!</h2>
+</center>
+:::

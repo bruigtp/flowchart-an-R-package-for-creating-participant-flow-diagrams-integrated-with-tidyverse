@@ -1,0 +1,101 @@
+aside.gdbar img {
+    width: 85px;
+    height: 85px;
+    position: absolute;
+    right: 0;
+    margin: -10px 15px;
+}
+
+.gdbar img {
+  width: 250px !important;
+  height: 150px !important;
+}
+
+.gdbar {
+  width: 425px !important;
+  height: 125px !important;
+}
+
+slides > slide:not(.nobackground):before {
+  width: 150px;
+  height: 75px;
+  background-size: 150px 75px;
+}
+
+h1, h2, h3 {
+  color: #36679F !important;
+}
+
+slides > slide.dark {
+    background: #cfcfcf !important;
+}
+
+article.bigger p{
+ font-size: 26px !important;  
+}
+
+article.bigger ul{
+ font-size: 26px !important;  
+}
+
+/*CSS specific for this presentation. The text wrapping can be useful for other presentations*/
+.reveal .custom > div.column:first-child {
+  height: 50%;
+}
+.reveal .custom div.column:not(:first-child) {
+  width: 50%;
+}
+.reveal .custom2 > div.column:first-child {
+  height: 50%;
+}
+.reveal .custom2 div.column:not(:first-child) {
+  width: 50%;
+}
+.reveal .custom4 > div.column:first-child {
+  height: 50%;
+}
+.reveal .custom4 div.column:not(:first-child) {
+  width: 50%;
+}
+.reveal .custom5 > div.column:first-child {
+  height: 50%;
+}
+.reveal .custom5 div.column:not(:first-child) {
+  width: 50%;
+}
+.sourceCode.r.hljs {
+  text-wrap: wrap
+}
+.sourceCode.r {
+  text-wrap: wrap!important;
+}
+.reveal .custom  img {
+  margin-top: -22%;
+}
+.reveal .custom2 img {
+  margin-top: -10%;  
+}
+.reveal .custom3 img {
+  margin-top: -2%;  
+}
+.reveal .custom4 img {
+  margin-top: -18%;  
+}
+.reveal .custom5 img {
+  margin-top: -16%;  
+}
+#example-2-2 > img {
+  fig-align: center;
+  position: relative;
+  z-index: -5;
+  margin-top: -15%;
+  width: 475px!important;
+  height: 830px!important;
+}
+#motivation-1 > div.cell.columns.column-output-location > div:nth-child(1) {
+  height: 450px;
+}
+#cb1 > pre > code {
+  max-height: 430px;
+  
+}

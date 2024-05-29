@@ -1,0 +1,22 @@
+<section id="$idprefix$title-slide"$for(title-slide-attributes/pairs)$ $it.key$="$it.value$"$endfor$>
+<h3 class="title">$title$</h3>
+<div style = "column-count: 2">
+<img src="WWW/flowchart.png" width="75%">
+$if(subtitle)$
+  <p class="subtitle">$subtitle$</p>
+$endif$
+<br>
+<br>
+<br>
+<br>
+$for(author)$
+  <p class="author">$author$</p>
+$endfor$
+$for(institute)$
+  <p class="institute" style = "font-size: 30px;">$institute$</p>
+$endfor$
+$if(date)$
+  <p class="date" style = "font-size: 30px;">$date$</p>
+$endif$
+</div>
+</section>
