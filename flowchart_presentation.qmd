@@ -17,7 +17,7 @@ format:
 
 # Introduction
 
-## Background
+## Motivation
 
 -   The number of subjects analyzed in a health research study must be clear, and the process transparent
 
@@ -433,7 +433,7 @@ safo |>
   </tr>
   <tr>
    <td style="text-align:left;"> `show_zero=` </td>
-   <td style="text-align:left;"> omit the levels of the grouping variable that don't have data. </td>
+   <td style="text-align:left;"> show the levels of the grouping variable that don't have data. </td>
   </tr>
 </tbody>
 </table>
@@ -757,17 +757,13 @@ as_fc(N = 300) |>
     -   Shiny application
 :::
 
-## More information
+## More information {.smaller}     
 
--   You can visit the {flowchart} website
+-   You can visit the {flowchart} website: <a href = "https://bruigtp.github.io/flowchart/">https://bruigtp.github.io/flowchart/</a>
 
 <center>
 
-![https://bruigtp.github.io/flowchart/](WWW/flowchart_website.png){width="75%"}
-<small>
-<a href = "https://bruigtp.github.io/flowchart/">https://bruigtp.github.io/flowchart/</a>
-</small>
-
+![](WWW/flowchart_website.png){width="75%"}
 </center>
 
 ## Contact
