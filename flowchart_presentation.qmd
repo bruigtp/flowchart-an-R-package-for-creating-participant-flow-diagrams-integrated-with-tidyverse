@@ -13,6 +13,7 @@ format:
     css: WWW/styles.css
     template-partials:
       - WWW/title-slide.html
+    self-contained: true
 ---
 
 # Introduction
