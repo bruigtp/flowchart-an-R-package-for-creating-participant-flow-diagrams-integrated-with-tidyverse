@@ -8,9 +8,6 @@ The package can be found in this GitHub repository:
 
 https://github.com/bruigtp/flowchart
 
-<br>
-<br>
-
 ## Useful references
 
 Here are some useful links to complement the presentation:
