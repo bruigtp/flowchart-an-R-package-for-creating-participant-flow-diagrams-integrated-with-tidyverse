@@ -1,0 +1,310 @@
+[
+  {
+    "objectID": "flowchart_presentation.html#motivation",
+    "href": "flowchart_presentation.html#motivation",
+    "title": "",
+    "section": "Motivation",
+    "text": "Motivation\n\nThe flow of subjects in any study must be clear and the process transparent, especially in health research studies\nThe CONSORT, STROBE and ICH guidelines reflect this need\nThe preferred way to present this patient flow through the different phases is a flowchart (also called flow diagram)\nThe creation of the flowchart is a joint task between the data management team and the statisticians"
+  },
+  {
+    "objectID": "flowchart_presentation.html#motivation-1",
+    "href": "flowchart_presentation.html#motivation-1",
+    "title": "",
+    "section": "Motivation",
+    "text": "Motivation\n\nThere are several R packages dedicated to building flowcharts: {Gmisc}, {DiagrammeR}, {consort}, {ggflowchart}\nComplex programming and manual parameterization are often involved\nSome are designed for building other kind of diagrams"
+  },
+  {
+    "objectID": "flowchart_presentation.html#flowchart-package",
+    "href": "flowchart_presentation.html#flowchart-package",
+    "title": "",
+    "section": "{flowchart} package",
+    "text": "{flowchart} package\n\nCreates reproducible flowcharts from a dataset in an easy way\nProvides a set of functions that can be combined with the pipe operator (|&gt; or %&gt;%)\n\n\n\n\n\nflowchart CRAN page"
+  },
+  {
+    "objectID": "flowchart_presentation.html#overview",
+    "href": "flowchart_presentation.html#overview",
+    "title": "",
+    "section": "Overview",
+    "text": "Overview\n\n\n\nCreate a flowchart\n\nas_fc()\nfc_draw()\nfc_split()\nfc_filter()\n\nCustomize flowcharts\n\nfc_modify()\n\n\n\n\nCombine flowcharts\n\nfc_merge()\nfc_stack()\n\nExport flowcharts\n\nfc_export()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#safo-dataset",
+    "href": "flowchart_presentation.html#safo-dataset",
+    "title": "",
+    "section": "safo dataset",
+    "text": "safo dataset\n\nBuilt-in dataset\nRandomly generated dataset from the SAFO clinical trial1\n\n\n\n\n\n\n\n\n\n\nID\ndid not meet inclusion criteria\nmet exclusion criteria\ndeclined to participate\ntreatment received\nintention to treat (ITT)\nper protocol (PP)\n\n\n\n\n1\nYes\nNo\nNA\nNA\nNA\nNA\n\n\n2\nNo\nNo\nYes\nNA\nNA\nNA\n\n\n3\nNo\nNo\nNo\ncloxacillin plus fosfomycin\nYes\nYes\n\n\n4\nNo\nYes\nNA\nNA\nNA\nNA\n\n\n5\nNo\nNo\nNo\ncloxacillin plus fosfomycin\nYes\nYes\n\n\n6\nNo\nYes\nNA\nNA\nNA\nNA\n\n\n\n\n\n\n\n\nGrillo, S., Pujol, M., Miró, J.M. et al. Cloxacillin plus fosfomycin versus cloxacillin alone for methicillin-susceptible Staphylococcus aureus bacteremia: a randomized trial. Nat Med 29, 2518–2525 (2023)"
+  },
+  {
+    "objectID": "flowchart_presentation.html#as_fc",
+    "href": "flowchart_presentation.html#as_fc",
+    "title": "",
+    "section": "as_fc()",
+    "text": "as_fc()\n\nAllows to initialize a dataset in the class fc created for this package\nCreates a flowchart with an initial box showing the total number of rows of the dataset\n\n\nlibrary(flowchart)\n\nsafo_fc &lt;- safo |&gt; \n  as_fc()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#as_fc-1",
+    "href": "flowchart_presentation.html#as_fc-1",
+    "title": "",
+    "section": "as_fc()",
+    "text": "as_fc()\n\nAllows to initialize a dataset in the class fc created for this package\nCreates a flowchart with an initial box showing the total number of rows of the dataset\n\n\nlibrary(flowchart)\n\nsafo_fc &lt;- safo |&gt; \n  as_fc()\n\nstr(safo_fc, max.level = 1)\n\nList of 2\n $ data: tibble [925 × 21] (S3: tbl_df/tbl/data.frame)\n $ fc  : tibble [1 × 16] (S3: tbl_df/tbl/data.frame)\n - attr(*, \"class\")= chr \"fc\""
+  },
+  {
+    "objectID": "flowchart_presentation.html#as_fc-2",
+    "href": "flowchart_presentation.html#as_fc-2",
+    "title": "",
+    "section": "as_fc()",
+    "text": "as_fc()\n\nsafo_fc$fc\n\n\n\n\n\n\n\n\n\nid\nx\ny\nn\nN\nperc\ntext\ntype\ngroup\njust\ntext_color\ntext_fs\ntext_fface\ntext_ffamily\nbg_fill\nborder_color\n\n\n\n\n1\n0.5\n0.5\n925\n925\n100\nInitial dataframe 925\ninit\nNA\ncenter\nblack\n8\n1\nNA\nwhite\nblack"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_draw",
+    "href": "flowchart_presentation.html#fc_draw",
+    "title": "",
+    "section": "fc_draw()",
+    "text": "fc_draw()\n\nAllows to draw a previously created fc object\n\n\nsafo |&gt; \n  as_fc()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_draw-1",
+    "href": "flowchart_presentation.html#fc_draw-1",
+    "title": "",
+    "section": "fc_draw()",
+    "text": "fc_draw()\n\nAllows to draw a previously created fc object\n\n\nsafo |&gt; \n  as_fc() |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_draw-2",
+    "href": "flowchart_presentation.html#fc_draw-2",
+    "title": "",
+    "section": "fc_draw()",
+    "text": "fc_draw()\n\nAllows to draw a previously created fc object\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt; \n  fc_draw()\n\n\n\nWe can use the label argument to modify the box label"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_filter",
+    "href": "flowchart_presentation.html#fc_filter",
+    "title": "",
+    "section": "fc_filter()",
+    "text": "fc_filter()\n\nWe can filter an existing flowchart specifying the logic in which the filter is to be applied\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_filter-1",
+    "href": "flowchart_presentation.html#fc_filter-1",
+    "title": "",
+    "section": "fc_filter()",
+    "text": "fc_filter()\n\nWe can filter an existing flowchart specifying the logic in which the filter is to be applied\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group)) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_filter-2",
+    "href": "flowchart_presentation.html#fc_filter-2",
+    "title": "",
+    "section": "fc_filter()",
+    "text": "fc_filter()\n\nWe can filter an existing flowchart specifying the logic in which the filter is to be applied\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\") |&gt; \n  fc_draw()\n\n\n\n\n\n\n\n\n\n\n\n\nWe can change again the label"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_filter-3",
+    "href": "flowchart_presentation.html#fc_filter-3",
+    "title": "",
+    "section": "fc_filter()",
+    "text": "fc_filter()\n\nWe can filter an existing flowchart specifying the logic in which the filter is to be applied\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw()\n\n\n\n\n\n\n\n\n\n\n\n\nWe can change again the label\nWe can use show_exc=TRUE to show the excluded rows"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_split",
+    "href": "flowchart_presentation.html#fc_split",
+    "title": "",
+    "section": "fc_split()",
+    "text": "fc_split()\n\nWe can split an existing flowchart according to the different values of a column\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_split-1",
+    "href": "flowchart_presentation.html#fc_split-1",
+    "title": "",
+    "section": "fc_split()",
+    "text": "fc_split()\n\nWe can split an existing flowchart according to the different values of a column\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_split(group) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#modify-function-arguments",
+    "href": "flowchart_presentation.html#modify-function-arguments",
+    "title": "",
+    "section": "Modify function arguments",
+    "text": "Modify function arguments\n\n\nSome arguments common to as_fc(), fc_filter() and fc_split(), to customise the appearance of the boxes created at each step\n\n\n\n\n\nlabel=\n\n\nmodify the label.\n\n\n\n\ntext_pattern=\n\n\nmodify the pattern of the text (e.g. {label}\\n {n} ({perc}%).\n\n\n\n\njust=\n\n\nmodify the justification for the text.\n\n\n\n\ntext_color=\n\n\nmodify the color of the text.\n\n\n\n\ntext_fs=\n\n\nmodify the font size of the text.\n\n\n\n\nbg_fill=\n\n\nmodify the background color of the box.\n\n\n\n\nborder_color=\n\n\nmodify the border color of the box.\n\n\n\n\n\n\n\nOther arguments specific to each function (vignette)"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_modify",
+    "href": "flowchart_presentation.html#fc_modify",
+    "title": "",
+    "section": "fc_modify()",
+    "text": "fc_modify()\n\nWe can modify the parameters of the created flowchart\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_modify-1",
+    "href": "flowchart_presentation.html#fc_modify-1",
+    "title": "",
+    "section": "fc_modify()",
+    "text": "fc_modify()\n\nWe can modify the parameters of the created flowchart\n\n\nsafo_fc &lt;- safo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE)\n\nsafo_fc$fc |&gt; \n  gt::gt() \n\n\n\n\n\n\n\n\nid\nx\ny\nn\nN\nperc\ntext\ntype\ngroup\njust\ntext_color\ntext_fs\ntext_fface\ntext_ffamily\nbg_fill\nborder_color\n\n\n\n\n1\n0.50\n0.6666667\n925\n925\n100\nPatients assessed for eligibility 925\ninit\nNA\ncenter\nblack\n8\n1\nNA\nwhite\nblack\n\n\n2\n0.50\n0.3333333\n215\n925\n23.24\nRandomized 215 (23.24%)\nfilter\nNA\ncenter\nblack\n8\n1\nNA\nwhite\nblack\n\n\n3\n0.65\n0.5000000\n710\n925\n76.76\nExcluded 710 (76.76%)\nexclude\nNA\ncenter\nblack\n6\n1\nNA\nwhite\nblack"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_modify-2",
+    "href": "flowchart_presentation.html#fc_modify-2",
+    "title": "",
+    "section": "fc_modify()",
+    "text": "fc_modify()\n\nWe can modify the parameters of the created flowchart\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_modify(\n    ~ . |&gt; \n      mutate(\n        text = ifelse(id == 3, str_glue(\"- {sum(safo$inclusion_crit == 'Yes')} not met the inclusion criteria\\n- {sum(safo$exclusion_crit == 'Yes')} met the exclusion criteria\"), text),\n        x = ifelse(id == 3, 0.75, x)\n      )\n  ) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_modify-2-output",
+    "href": "flowchart_presentation.html#fc_modify-2-output",
+    "title": "",
+    "section": "fc_modify()",
+    "text": "fc_modify()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_merge",
+    "href": "flowchart_presentation.html#fc_merge",
+    "title": "",
+    "section": "fc_merge()",
+    "text": "fc_merge()\n\nWe can combine different flowcharts horizontally\n\n\n\n\nfc1 &lt;- safo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(itt == \"Yes\", label = \"Intention to treat (ITT)\")\n\nfc_draw(fc1)\n\n\n\n\n\n\n\n\n\n\nfc2 &lt;- safo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(pp == \"Yes\", label = \"Per protocol (PP)\")\n\nfc_draw(fc2)"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_merge-1",
+    "href": "flowchart_presentation.html#fc_merge-1",
+    "title": "",
+    "section": "fc_merge()",
+    "text": "fc_merge()\n\nWe can combine different flowcharts horizontally\n\n\nlist(fc1, fc2) |&gt;\n  fc_merge()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_merge-2",
+    "href": "flowchart_presentation.html#fc_merge-2",
+    "title": "",
+    "section": "fc_merge()",
+    "text": "fc_merge()\n\nWe can combine different flowcharts horizontally\n\n\nlist(fc1, fc2) |&gt;\n  fc_merge() |&gt;\n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_export",
+    "href": "flowchart_presentation.html#fc_export",
+    "title": "",
+    "section": "fc_export()",
+    "text": "fc_export()\n\nWe can export the drawn flowchart to some of the most popular graphic devices: png, jpeg, tiff and bmp\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_export-1",
+    "href": "flowchart_presentation.html#fc_export-1",
+    "title": "",
+    "section": "fc_export()",
+    "text": "fc_export()\n\nWe can export the drawn flowchart to some of the most popular graphic devices: png, jpeg, tiff and bmp\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw() |&gt; \n  fc_export(\"flowchart.png\")"
+  },
+  {
+    "objectID": "flowchart_presentation.html#fc_export-2",
+    "href": "flowchart_presentation.html#fc_export-2",
+    "title": "",
+    "section": "fc_export()",
+    "text": "fc_export()\n\nWe can export the drawn flowchart to some of the most popular graphic devices: png, jpeg, tiff and bmp\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw() |&gt; \n  fc_export(\"flowchart.png\", width = 2500, height = 2000, res = 700)\n\n\nWe can customize the size and resolution of the image to save"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-1",
+    "href": "flowchart_presentation.html#example-1",
+    "title": "",
+    "section": "Example 1",
+    "text": "Example 1\n\nWe will try to build a flowchart for the complete participant flow of the SAFO study trial"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-1-1",
+    "href": "flowchart_presentation.html#example-1-1",
+    "title": "",
+    "section": "Example 1",
+    "text": "Example 1\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-1-2",
+    "href": "flowchart_presentation.html#example-1-2",
+    "title": "",
+    "section": "Example 1",
+    "text": "Example 1\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-1-3",
+    "href": "flowchart_presentation.html#example-1-3",
+    "title": "",
+    "section": "Example 1",
+    "text": "Example 1\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_split(group) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-1-4",
+    "href": "flowchart_presentation.html#example-1-4",
+    "title": "",
+    "section": "Example 1",
+    "text": "Example 1\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_split(group) |&gt; \n  fc_filter(itt == \"Yes\", label = \"Included in ITT\") |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-1-5",
+    "href": "flowchart_presentation.html#example-1-5",
+    "title": "",
+    "section": "Example 1",
+    "text": "Example 1\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_split(group) |&gt; \n  fc_filter(itt == \"Yes\", label = \"Included in ITT\") |&gt; \n  fc_filter(pp == \"Yes\", label = \"Included in PP\") |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-1-6",
+    "href": "flowchart_presentation.html#example-1-6",
+    "title": "",
+    "section": "Example 1",
+    "text": "Example 1\n\nIn the vignette there is the full example to exactly reproduce the flowchart found in the SAFO article:\n\n\n Grillo, S., Pujol, M., Miró, J.M. et al. Cloxacillin plus fosfomycin versus cloxacillin alone for methicillin-susceptible Staphylococcus aureus bacteremia: a randomized trial. Nat Med 29, 2518–2525 (2023). https://doi.org/10.1038/s41591-023-02569-0"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2",
+    "href": "flowchart_presentation.html#example-2",
+    "title": "",
+    "section": "Example 2",
+    "text": "Example 2\n\nNow, we will create a flowchart without any dataset using the N= argument"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-1",
+    "href": "flowchart_presentation.html#example-2-1",
+    "title": "",
+    "section": "Example 2",
+    "text": "Example 2\n\nNow, we will create a flowchart without any dataset using the N= argument\n\n\n\nas_fc(N = 300) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-2",
+    "href": "flowchart_presentation.html#example-2-2",
+    "title": "",
+    "section": "Example 2",
+    "text": "Example 2\n\nNow, we will create a flowchart without any dataset using the N= argument\n\n\n\nas_fc(N = 300) |&gt;\n  fc_filter(N = 240, label = \"Randomized patients\", show_exc = TRUE) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-3",
+    "href": "flowchart_presentation.html#example-2-3",
+    "title": "",
+    "section": "Example 2",
+    "text": "Example 2\n\nNow, we will create a flowchart without any dataset using the N= argument\n\n\n\nas_fc(N = 300) |&gt;\n  fc_filter(N = 240, label = \"Randomized patients\", show_exc = TRUE) |&gt; \n  fc_split(N = c(100, 80, 60), label = c(\"Group A\", \"Group B\", \"Group C\")) |&gt;\n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-4",
+    "href": "flowchart_presentation.html#example-2-4",
+    "title": "",
+    "section": "Example 2",
+    "text": "Example 2\n\nNow, we will create a flowchart without any dataset using the N= argument\n\n\n\nas_fc(N = 300) |&gt;\n  fc_filter(N = 240, label = \"Randomized patients\", show_exc = TRUE) |&gt; \n  fc_split(N = c(100, 80, 60), label = c(\"Group A\", \"Group B\", \"Group C\")) |&gt;\n  fc_filter(N = c(80, 75, 50), label = \"Finished the study\") |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#conclusions",
+    "href": "flowchart_presentation.html#conclusions",
+    "title": "",
+    "section": "Conclusions",
+    "text": "Conclusions\n\n\nA clear and detailed reporting of the flow of participants in health research studies is required and recommended\nWith this package, flowchart programming in R is made easier and accessible within the tidyverse workflow\nFlowchart reproducibility is assured\nAs a limitation, we have not considered all possible scenarios and study designs, although is highly customizable\nAs future developments:\n\nDefine style themes\nShiny application"
+  },
+  {
+    "objectID": "flowchart_presentation.html#more-information",
+    "href": "flowchart_presentation.html#more-information",
+    "title": "",
+    "section": "More information",
+    "text": "More information\n\nYou can visit the {flowchart} website: https://bruigtp.github.io/flowchart/"
+  },
+  {
+    "objectID": "flowchart_presentation.html#contact",
+    "href": "flowchart_presentation.html#contact",
+    "title": "",
+    "section": "Contact",
+    "text": "Contact\nIGTP Biostatistics Support and Research Unit:\n\n\nPau Satorra\nAuthor, maintainer psatorra@igtp.cat\n\nJoão Carmezim\nAuthor\n\nNatàlia Pallarès\nAuthor\n\nCristian Tebé\nAuthor\n\n\n\n github.com/bruigtp"
+  },
+  {
+    "objectID": "flowchart_presentation.html#section",
+    "href": "flowchart_presentation.html#section",
+    "title": "",
+    "section": "",
+    "text": "Thank you!\n\n\n\n\n\n\n\nuseR! 2024 - {flowchart}"
+  }
+]
