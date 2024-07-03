@@ -2,7 +2,7 @@
 
  <a href="https://bruigtp.github.io/flowchart/"><img src="WWW/flowchart.png" align="left" height="150" alt="flowchart website" /></a>
  
-This is a repository containing all the code and all the slides of the presentation about the R {flowchart} package. 
+This is a repository containing all the code and all the slides of the presentation about the R {flowchart} package. The slides can be visited in: https://bruigtp.github.io/flowchart-an-R-package-for-creating-participant-flow-diagrams-integrated-with-tidyverse/flowchart_presentation.html#/title-slide
 
 The package can be found in this GitHub repository: 
 
