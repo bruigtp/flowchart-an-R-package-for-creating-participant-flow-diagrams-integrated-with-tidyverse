@@ -1,8 +1,8 @@
 # {flowchart}: an R package for creating participant flow diagrams integrated with tidyverse
 
- <a href="https://bruigtp.github.io/flowchart/"><img src="WWW/flowchart.png" align="left" height="150" alt="flowchart website" /></a>
+ <a href="https://bruigtp.github.io/flowchart/"><img src="WWW/flowchart.png" align="left" height="180" alt="flowchart website" /></a>
  
-This is a repository containing all the code and all the slides of the presentation about the R {flowchart} package. The slides can be visited in: https://bruigtp.github.io/flowchart-an-R-package-for-creating-participant-flow-diagrams-integrated-with-tidyverse/flowchart_presentation.html#/title-slide
+This is a repository containing all the code and all the slides of the presentation about the R {flowchart} package. The slides can be visited in: <a href = "https://bruigtp.github.io/flowchart-an-R-package-for-creating-participant-flow-diagrams-integrated-with-tidyverse/flowchart_presentation.html">flowchart presentation slides</a>
 
 The package can be found in this GitHub repository: 
 
