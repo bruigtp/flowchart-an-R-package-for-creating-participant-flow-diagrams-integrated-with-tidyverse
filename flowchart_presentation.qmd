@@ -20,13 +20,13 @@ format:
 
 ## Motivation
 
--   The flow of subjects in any study must be clear and the process transparent, especially in health research studies
+-   In any study, the flow of subjects must be clear and the process transparent, especially in health research studies
 
 -   The CONSORT, STROBE and ICH guidelines reflect this need
 
 -   The preferred way to present this patient flow through the different phases is a flowchart (also called flow diagram)
 
--   The creation of the flowchart is a joint task between the data management team and the statisticians
+-   The creation of the flowchart is a joint task between researchers, data management team and statisticians
 
 ## Motivation
 
@@ -324,7 +324,15 @@ safo |>
 
 -   We can modify the parameters of the created flowchart
 
-```{r echo=TRUE, fig.width = 4, fig.height = 5, out.width = "600"}
+```{r echo=TRUE, eval=FALSE}
+safo_fc <- safo |> 
+  as_fc(label = "Patients assessed for eligibility") |>
+  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE)
+  
+safo_fc$fc
+```
+
+```{r echo=FALSE, fig.width = 4, fig.height = 5, out.width = "600"}
 safo_fc <- safo |> 
   as_fc(label = "Patients assessed for eligibility") |>
   fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE)
@@ -520,8 +528,6 @@ safo |>
 
 ## Example 2 {auto-animate="true"}
 
--   Now, we will create a flowchart without any dataset using the `N=` argument
-
 ```{r echo=TRUE, fig.width = 3, fig.height = 3, out.width = "800"}
 #| classes: custom
 #| output-location: "column"
@@ -530,8 +536,6 @@ as_fc(N = 300) |>
 ```
 
 ## Example 2 {auto-animate="true"}
-
--   Now, we will create a flowchart without any dataset using the `N=` argument
 
 ```{r echo=TRUE, fig.width = 4, fig.height = 4, out.width = "800"}
 #| classes: custom
@@ -543,8 +547,6 @@ as_fc(N = 300) |>
 
 ## Example 2 {auto-animate="true"}
 
--   Now, we will create a flowchart without any dataset using the `N=` argument
-
 ```{r echo=TRUE, fig.width = 4, fig.height = 5, out.width = "600"}
 #| classes: custom
 #| output-location: "column"
@@ -555,8 +557,6 @@ as_fc(N = 300) |>
 ```
 
 ## Example 2 {auto-animate="true"}
-
--   Now, we will create a flowchart without any dataset using the `N=` argument
 
 ```{r echo=TRUE, fig.width = 4, fig.height = 5.5, out.width = "400"}
 #| classes: custom5
