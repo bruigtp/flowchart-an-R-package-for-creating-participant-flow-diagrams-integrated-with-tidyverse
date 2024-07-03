@@ -3,23 +3,24 @@ title: "{flowchart}: an R package for creating participant flow diagrams integra
 author: "Pau Satorra"
 institute: 
   - "Germans Trias i Pujol Research Institute and Hospital (IGTP)<br> Badalona, Spain"
-date: "2024-06-13"
+date: "2024-07-11"
 date-format: long
 format:
   revealjs:
     code-line-numbers: false
-    footer: "R/Medicine - {flowchart}"
+    footer: "useR! 2024 - {flowchart}"
     logo: WWW/logo.png
     css: WWW/styles.css
     template-partials:
       - WWW/title-slide.html
+    self-contained: true
 ---
 
 # Introduction
 
 ## Motivation
 
--   The number of subjects analyzed in a health research study must be clear, and the process transparent
+-   The flow of subjects in any study must be clear and the process transparent, especially in health research studies
 
 -   The CONSORT, STROBE and ICH guidelines reflect this need
 
@@ -34,82 +35,6 @@ format:
 - Complex programming and manual parameterization are often involved
 
 - Some are designed for building other kind of diagrams
-
-## Motivation  {.smaller}
-
--   Example of {Gmisc} code to build a simple flowchart
-
-<div style = "margin-top: -2%"></div>
-<a href = "https://cran.r-project.org/web/packages/Gmisc/vignettes/Grid-based_flowcharts.html">https://cran.r-project.org/web/packages/Gmisc/vignettes/Grid-based_flowcharts.html</a>
-
-```{r echo=TRUE, fig.align = "center", fig.height = 5, fig.width = 5, out.width = 400}
-#| output-location: "column"
-
-library(Gmisc, quietly = TRUE)
-library(glue)
-library(htmlTable)
-library(grid)
-library(magrittr)
-
-org_cohort <- boxGrob(glue("Stockholm population",
-                           "n = {pop}",
-                           pop = txtInt(1632798),
-                           .sep = "\n"))
-eligible <- boxGrob(glue("Eligible",
-                          "n = {pop}",
-                           pop = txtInt(10032),
-                           .sep = "\n"))
-included <- boxGrob(glue("Randomized",
-                         "n = {incl}",
-                         incl = txtInt(122),
-                         .sep = "\n"))
-grp_a <- boxGrob(glue("Treatment A",
-                      "n = {recr}",
-                      recr = txtInt(43),
-                      .sep = "\n"))
-
-grp_b <- boxGrob(glue("Treatment B",
-                      "n = {recr}",
-                      recr = txtInt(122 - 43 - 30),
-                      .sep = "\n"))
-
-excluded <- boxGrob(glue("Excluded (n = {tot}):",
-                         " - not interested: {uninterested}",
-                         " - contra-indicated: {contra}",
-                         tot = 30,
-                         uninterested = 12,
-                         contra = 30 - 12,
-                         .sep = "\n"),
-                    just = "left")
-
-grid.newpage()
-vert <- spreadVertical(org_cohort,
-                       eligible = eligible,
-                       included = included,
-                       grps = grp_a)
-grps <- alignVertical(reference = vert$grps,
-                      grp_a, grp_b) %>%
-  spreadHorizontal()
-vert$grps <- NULL
-
-excluded <- moveBox(excluded,
-                    x = .8,
-                    y = coords(vert$included)$top + distance(vert$eligible, vert$included, half = TRUE, center = FALSE))
-
-for (i in 1:(length(vert) - 1)) {
-  connectGrob(vert[[i]], vert[[i + 1]], type = "vert") %>%
-    print
-}
-connectGrob(vert$included, grps[[1]], type = "N")
-connectGrob(vert$included, grps[[2]], type = "N")
-
-connectGrob(vert$eligible, excluded, type = "L")
-
-# Print boxes
-vert
-grps
-excluded
-```
 
 ## {flowchart} package {.smaller}
 
@@ -293,7 +218,7 @@ safo |>
 -   We can filter an existing flowchart specifying the logic in which the filter is to be applied
 
 ```{r echo=TRUE, fig.width = 4, fig.height = 4, out.width = "800"}
-#| classes: custom2
+#| classes: custom
 #| output-location: "column"
 safo |> 
   as_fc(label = "Patients assessed for eligibility") |>
@@ -339,14 +264,10 @@ safo |>
 ## Modify function arguments
 
 ::: {style="font-size: 27px;"}
--   Arguments common to `as_fc()`, `fc_filter()` and `fc_split()`, to customise the appearance of the boxes created at each step
+-   Some arguments common to `as_fc()`, `fc_filter()` and `fc_split()`, to customise the appearance of the boxes created at each step
 
 <table>
 <tbody>
-  <tr>
-   <td style="text-align:left;"> `N=` </td>
-   <td style="text-align:left;"> manually specify the numbers to display in the boxes.</td>
-  </tr>
   <tr>
    <td style="text-align:left;"> `label=` </td>
    <td style="text-align:left;"> modify the label. </td>
@@ -377,93 +298,13 @@ safo |>
   </tr>
 </tbody>
 </table>
-:::
-
-## Modify function arguments
-
-::: {style="font-size: 27px;"}
--   Customize `fc_filter()` function
-
-<table>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> `sel_group=` </td>
-   <td style="text-align:left;"> apply the filter only in the specified groups (if flowchart has been splitted before). </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> `round_digits=` </td>
-   <td style="text-align:left;"> modify the number of digits to round percentages. </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> `show_exc=` </td>
-   <td style="text-align:left;"> show the box with the excluded rows that do not match the filter. </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> `direction_exc=` </td>
-   <td style="text-align:left;"> change the direction of the exclusion box (left or right). </td>
-  </tr>
-</tbody>
-</table>
-
-::: {style="margin-top:3%"}
-- Other parameters for the customization of the excluded box
-:::
 
 :::
 
+::: {style="font-size: 27px; margin-top: 2%;"}
 
-## Modify function arguments
+- Other arguments specific to each function (vignette)
 
-::: {style="font-size: 27px;"}
--   Customize `fc_split()` function
-
-<table>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> `sel_group=` </td>
-   <td style="text-align:left;"> split the flowchart only in the specified groups (if flowchart has been splitted before). </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> `round_digits=` </td>
-   <td style="text-align:left;"> modify the number of digits to round percentages. </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> `na.rm=` </td>
-   <td style="text-align:left;"> omit the missing values in the grouping variable. </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> `show_zero=` </td>
-   <td style="text-align:left;"> show the levels of the grouping variable that don't have data. </td>
-  </tr>
-</tbody>
-</table>
-:::
-
-## Modify function arguments
-
-::: {style="font-size: 27px;"}
--   Customize `fc_draw()` function
-
-<table>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> `arrow_angle=` </td>
-   <td style="text-align:left;"> angle of the arrow head in degrees. </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> `arrow_length=` </td>
-   <td style="text-align:left;"> unit specifying the length of the arrow head. </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> `arrow_ends=` </td>
-   <td style="text-align:left;"> specify the ends of the line to draw the arrow head (last/first/both). </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> `arrow_type=` </td>
-   <td style="text-align:left;"> whether the arrow head should be a closed triangle. </td>
-  </tr>
-</tbody>
-</table>
 :::
 
 ## `fc_modify()` {auto-animate="true"}
@@ -673,16 +514,6 @@ safo |>
 
 <center><small> Grillo, S., Pujol, M., Miró, J.M. et al. Cloxacillin plus fosfomycin versus cloxacillin alone for methicillin-susceptible <i>Staphylococcus aureus</i> bacteremia: a randomized trial. Nat Med 29, 2518--2525 (2023). <href>https://doi.org/10.1038/s41591-023-02569-0</href> </small></center>
 
-## Example 1
-
-<center>
-
-::: {style="margin-top: -7%; width: 55%; z-index:-5; position: relative;"}
-![](WWW/safo.png)
-:::
-
-</center>
-
 ## Example 2 {auto-animate="true"}
 
 -   Now, we will create a flowchart without any dataset using the `N=` argument
@@ -766,13 +597,13 @@ as_fc(N = 300) |>
 ![](WWW/flowchart_website.png){width="75%"}
 </center>
 
-## Contact
+## Contact {.smaller}
 
 IGTP Biostatistics Support and Research Unit:
 
 ::: columns
 ::: {.column width="25%"}
-Pau <br>Satorra
+Pau Satorra
 
 <small>Author, maintainer</small> <small><a href = "psatorra@igtp.cat">psatorra\@igtp.cat</a></small>
 :::
@@ -790,7 +621,7 @@ Natàlia Pallarès
 :::
 
 ::: {.column width="25%"}
-Cristian <br>Tebé
+Cristian Tebé
 
 <small>Author</small>
 :::
@@ -799,6 +630,21 @@ Cristian <br>Tebé
 <center>
 `r fontawesome::fa("github")` [github.com/bruigtp](https://github.com/bruigtp/)
 </center>
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+<center>
+![](WWW/repos1.png)
+</center>
+:::
+::: {.column width="50%"}
+<center>
+![](WWW/repos2.png)
+</center>
+:::
+:::
 
 ## 
 
