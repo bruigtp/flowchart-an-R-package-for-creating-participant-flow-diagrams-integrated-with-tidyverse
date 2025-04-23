@@ -1,310 +1,569 @@
 [
   {
-    "objectID": "flowchart_presentation.html#motivation",
-    "href": "flowchart_presentation.html#motivation",
-    "title": "",
-    "section": "Motivation",
-    "text": "Motivation\n\nIn any study, the flow of subjects must be clear and the process transparent, especially in health research studies\nThe CONSORT, STROBE and ICH guidelines reflect this need\nThe preferred way to present this patient flow through the different phases is a flowchart (also called flow diagram)\nThe creation of the flowchart is a joint task between researchers, data management team and statisticians"
+    "objectID": "flowchart_presentation.html#flowcharts",
+    "href": "flowchart_presentation.html#flowcharts",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Flowcharts",
+    "text": "Flowcharts\n\nIn any study, a participant flowchart serves as a visual representation of the steps and decisions in the study workflow.\nUsually different decisions are made from the initial cohort of eligible or screened subjects until a final number of these subjects are considered to be included in the analyses.\nIt is essential that the steps and numbers are clearly defined and that the process is transparent in order to ensure the reproducibility of the study and the quality of the reporting."
   },
   {
-    "objectID": "flowchart_presentation.html#motivation-1",
-    "href": "flowchart_presentation.html#motivation-1",
-    "title": "",
-    "section": "Motivation",
-    "text": "Motivation\n\nThere are several R packages dedicated to building flowcharts: {Gmisc}, {DiagrammeR}, {consort}, {ggflowchart}\nComplex programming and manual parameterization are often involved\nSome are designed for building other kind of diagrams"
+    "objectID": "flowchart_presentation.html#flowcharts-1",
+    "href": "flowchart_presentation.html#flowcharts-1",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Flowcharts",
+    "text": "Flowcharts\n\nParticipant flowcharts evolved from the broader concept of flowcharts introduced by industrial engineers.\nFrank and Lillian Gilbreth introduced the idea of flowcharts in 1921 as “Flow Process Charts” to the American Society of Mechanical Engineers:"
   },
   {
-    "objectID": "flowchart_presentation.html#flowchart-package",
-    "href": "flowchart_presentation.html#flowchart-package",
-    "title": "",
-    "section": "{flowchart} package",
-    "text": "{flowchart} package\n\nCreates reproducible flowcharts from a dataset in an easy way\nProvides a set of functions that can be combined with the pipe operator (|&gt; or %&gt;%)\n\n\n\n\n\nflowchart CRAN page"
+    "objectID": "flowchart_presentation.html#flowcharts-2",
+    "href": "flowchart_presentation.html#flowcharts-2",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Flowcharts",
+    "text": "Flowcharts"
   },
   {
-    "objectID": "flowchart_presentation.html#overview",
-    "href": "flowchart_presentation.html#overview",
-    "title": "",
-    "section": "Overview",
-    "text": "Overview\n\n\n\nCreate a flowchart\n\nas_fc()\nfc_draw()\nfc_split()\nfc_filter()\n\nCustomize flowcharts\n\nfc_modify()\n\n\n\n\nCombine flowcharts\n\nfc_merge()\nfc_stack()\n\nExport flowcharts\n\nfc_export()"
+    "objectID": "flowchart_presentation.html#flowcharts-in-clinical-research",
+    "href": "flowchart_presentation.html#flowcharts-in-clinical-research",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Flowcharts in clinical research",
+    "text": "Flowcharts in clinical research\n\nIn clinical research, the CONSORT, STROBE and ICH guidelines strongly recommend the use of flowcharts.\nThe CONSORT guideline provides a template for the elaboration of a flowchart in the context of a randomized trial of two groups:"
+  },
+  {
+    "objectID": "flowchart_presentation.html#flowcharts-in-clinical-research-1",
+    "href": "flowchart_presentation.html#flowcharts-in-clinical-research-1",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Flowcharts in clinical research",
+    "text": "Flowcharts in clinical research"
+  },
+  {
+    "objectID": "flowchart_presentation.html#flowchart-creation",
+    "href": "flowchart_presentation.html#flowchart-creation",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Flowchart creation",
+    "text": "Flowchart creation\n\nThe creation of these flowcharts is a joint task between the data management team and the statisticians.\nIt is time-consuming and labor-intensive, as every screened or recruited subject must be included, without exception.\nUsually this process must be repeated many times until the database is closed for analysis."
+  },
+  {
+    "objectID": "flowchart_presentation.html#flowchart-packages",
+    "href": "flowchart_presentation.html#flowchart-packages",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "flowchart packages",
+    "text": "flowchart packages\n\nThere are several R packages dedicated to building flowcharts: {Gmisc}, {DiagrammeR}, {consort}, {ggflowchart}.\nComplex programming and manual parameterization are often involved.\nSome are designed for building other kind of diagrams.\nThey are not adapted to the tidyverse."
+  },
+  {
+    "objectID": "flowchart_presentation.html#gmisc-package",
+    "href": "flowchart_presentation.html#gmisc-package",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "{Gmisc} package",
+    "text": "{Gmisc} package\n\nlibrary(Gmisc, quietly = TRUE)\nlibrary(glue)\nlibrary(htmlTable)\nlibrary(grid)\nlibrary(magrittr)\n\norg_cohort &lt;- boxGrob(glue(\"Stockholm population\",\n                           \"n = {pop}\",\n                           pop = txtInt(1632798),\n                           .sep = \"\\n\"))\neligible &lt;- boxGrob(glue(\"Eligible\",\n                          \"n = {pop}\",\n                           pop = txtInt(10032),\n                           .sep = \"\\n\"))\nincluded &lt;- boxGrob(glue(\"Randomized\",\n                         \"n = {incl}\",\n                         incl = txtInt(122),\n                         .sep = \"\\n\"))\ngrp_a &lt;- boxGrob(glue(\"Treatment A\",\n                      \"n = {recr}\",\n                      recr = txtInt(43),\n                      .sep = \"\\n\"))\n\ngrp_b &lt;- boxGrob(glue(\"Treatment B\",\n                      \"n = {recr}\",\n                      recr = txtInt(122 - 43 - 30),\n                      .sep = \"\\n\"))\n\nexcluded &lt;- boxGrob(glue(\"Excluded (n = {tot}):\",\n                         \" - not interested: {uninterested}\",\n                         \" - contra-indicated: {contra}\",\n                         tot = 30,\n                         uninterested = 12,\n                         contra = 30 - 12,\n                         .sep = \"\\n\"),\n                    just = \"left\")\n\ngrid.newpage()\nvert &lt;- spreadVertical(org_cohort,\n                       eligible = eligible,\n                       included = included,\n                       grps = grp_a)\ngrps &lt;- alignVertical(reference = vert$grps,\n                      grp_a, grp_b) %&gt;%\n  spreadHorizontal()\nvert$grps &lt;- NULL\n\nexcluded &lt;- moveBox(excluded,\n                    x = .8,\n                    y = coords(vert$included)$top + distance(vert$eligible, vert$included, half = TRUE, center = FALSE))\n\nfor (i in 1:(length(vert) - 1)) {\n  connectGrob(vert[[i]], vert[[i + 1]], type = \"vert\") %&gt;%\n    print\n}\nconnectGrob(vert$included, grps[[1]], type = \"N\")\nconnectGrob(vert$included, grps[[2]], type = \"N\")\n\nconnectGrob(vert$eligible, excluded, type = \"L\")\n\n# Print boxes\nvert\ngrps\nexcluded"
+  },
+  {
+    "objectID": "flowchart_presentation.html#gmisc-package-output",
+    "href": "flowchart_presentation.html#gmisc-package-output",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "{Gmisc} package",
+    "text": "{Gmisc} package"
+  },
+  {
+    "objectID": "flowchart_presentation.html#the-tidyverse-1",
+    "href": "flowchart_presentation.html#the-tidyverse-1",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "The tidyverse",
+    "text": "The tidyverse\n\n\n\n\n\n\nA set of R packages ideal for data management. They will make your life a lot easier."
+  },
+  {
+    "objectID": "flowchart_presentation.html#the-tidyverse-2",
+    "href": "flowchart_presentation.html#the-tidyverse-2",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "The tidyverse",
+    "text": "The tidyverse\n\nThe philosophy of tidyverse is to concatenate basic functions applied to a tibble (dataframe) to accomplish complex manipulations integrated into a tidy workflow.\nThe tidyverse workflow is based on the usage of the pipe operator, which can be the native pipe (|&gt;) or the magrittr pipe (%&gt;%)."
+  },
+  {
+    "objectID": "flowchart_presentation.html#pipe-operator",
+    "href": "flowchart_presentation.html#pipe-operator",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Pipe operator",
+    "text": "Pipe operator\n\n\n\n\n\n\n\n\n\nThe pipe operator allows to concatenate multiple functions applied to the same object:\n\n\n#Round π to 6 decimals\nround(pi, 6)\n\n[1] 3.141593"
+  },
+  {
+    "objectID": "flowchart_presentation.html#pipe-operator-1",
+    "href": "flowchart_presentation.html#pipe-operator-1",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Pipe operator",
+    "text": "Pipe operator\n\n\n\n\n\n\n\n\n\nThe pipe operator allows to concatenate multiple functions applied to the same object:\n\n\n#Equivalent using pipes\npi |&gt; round(6)\n\n[1] 3.141593"
+  },
+  {
+    "objectID": "flowchart_presentation.html#pipe-operator-2",
+    "href": "flowchart_presentation.html#pipe-operator-2",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Pipe operator",
+    "text": "Pipe operator\n\n\n\n\n\n\n\n\n\nThe pipe operator allows to concatenate multiple functions applied to the same object:\n\n\n#Exponential of the square root of π and then round to 6 decimals\nround(exp(sqrt(pi)), 6)\n\n[1] 5.885277"
+  },
+  {
+    "objectID": "flowchart_presentation.html#pipe-operator-3",
+    "href": "flowchart_presentation.html#pipe-operator-3",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Pipe operator",
+    "text": "Pipe operator\n\n\n\n\n\n\n\n\n\nThe pipe operator allows to concatenate multiple functions applied to the same object:\n\n\n#Equivalent using pipes\npi |&gt; \n  sqrt() |&gt; \n  exp() |&gt; \n  round(6)\n\n[1] 5.885277"
+  },
+  {
+    "objectID": "flowchart_presentation.html#the-tidyverse-3",
+    "href": "flowchart_presentation.html#the-tidyverse-3",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "The tidyverse",
+    "text": "The tidyverse\n\nThis is an example of what a tidyverse workflow looks like compared to base R:\n\n\n\nfilter_iris &lt;- subset(iris, Species == \"setosa\")\n\nsel_filter_iris &lt;- filter_iris[, c(\"Sepal.Length\", \"Sepal.Width\")]\n\nsel_filter_iris$Sepal.Size &lt;- ifelse(sel_filter_iris$Sepal.Length &gt; mean(sel_filter_iris$Sepal.Length) & sel_filter_iris$Sepal.Width &gt; mean(sel_filter_iris$Sepal.Width), 2, 1)\n\nsel_filter_iris$Sepal.Size &lt;- factor(sel_filter_iris$Sepal.Size, levels = 1:2, labels = c(\"Small\", \"Big\"))\n\nsmall_iris &lt;- sel_filter_iris[sel_filter_iris$Sepal.Size == \"Small\",]\n\nsmall_sepal_area &lt;- mean(small_iris[,\"Sepal.Length\"] * small_iris[,\"Sepal.Width\"])\n\nbig_iris &lt;- sel_filter_iris[sel_filter_iris$Sepal.Size == \"Big\",]\n\nbig_sepal_area &lt;- mean(big_iris[,\"Sepal.Length\"] * big_iris[,\"Sepal.Width\"])\n\ndata.frame(\n  \"Sepal.Size\" = c(\"Small\", \"Big\"),\n  \"Sepal.Area\" = c(small_sepal_area, big_sepal_area)\n)\n\n  Sepal.Size Sepal.Area\n1      Small   15.65636\n2        Big   20.36647"
+  },
+  {
+    "objectID": "flowchart_presentation.html#the-tidyverse-4",
+    "href": "flowchart_presentation.html#the-tidyverse-4",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "The tidyverse",
+    "text": "The tidyverse\n\nThis is an example of what a tidyverse workflow looks like compared to base R:\n\n\n\nlibrary(dplyr)\n\niris |&gt; \n  filter(Species == \"setosa\") |&gt; \n  select(Sepal.Length, Sepal.Width) |&gt; \n  mutate(\n    Sepal.Size = case_when(\n      Sepal.Length &gt; mean(Sepal.Length) & Sepal.Width &gt; mean(Sepal.Width) ~ 2,\n      .default = 1\n    ),\n    Sepal.Size = factor(Sepal.Size, levels = 1:2, labels = c(\"Small\", \"Big\")) \n  ) |&gt; \n  group_by(Sepal.Size) |&gt; \n  summarise(\n    Sepal.Area = mean(Sepal.Length*Sepal.Width)\n  )\n\n# A tibble: 2 × 2\n  Sepal.Size Sepal.Area\n  &lt;fct&gt;           &lt;dbl&gt;\n1 Small            15.7\n2 Big              20.4"
+  },
+  {
+    "objectID": "flowchart_presentation.html#flowchart",
+    "href": "flowchart_presentation.html#flowchart",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "{flowchart}",
+    "text": "{flowchart}\n\n\n\n\n\n\n\n\n\nIt adapts the {Gmisc} package to the tidyverse and makes it more automatizable.\nFrom the study database we have to define a set of simple operations combined with the pipe operator (|&gt; or %&gt;%).\nIt automatically adapts to the study database allowing reproducibility.\nThese functions are highly customizable allowing manual parameters to be entered if necessary."
+  },
+  {
+    "objectID": "flowchart_presentation.html#flowchart-1",
+    "href": "flowchart_presentation.html#flowchart-1",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "{flowchart}",
+    "text": "{flowchart}\n\n\nAlexander Calder (1898-1976)"
+  },
+  {
+    "objectID": "flowchart_presentation.html#flowchart-2",
+    "href": "flowchart_presentation.html#flowchart-2",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "{flowchart}",
+    "text": "{flowchart}\n\nPublished in CRAN since Feburary 2024. Current version: 0.8.0.\n\n\n\n\n\nflowchart CRAN page"
+  },
+  {
+    "objectID": "flowchart_presentation.html#overview-of-the-package",
+    "href": "flowchart_presentation.html#overview-of-the-package",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Overview of the package",
+    "text": "Overview of the package\n\n\n\n\nCreate a flowchart:\n\nas_fc()\nfc_draw()\nfc_split()\nfc_filter()\n\n\n\n\nCombine flowcharts:\n\nfc_merge()\nfc_stack()\n\n\n\n\n\n\n\nCustomize flowcharts:\n\nfc_modify()\n\n\n\n\nExport flowcharts:\n\nfc_export()"
   },
   {
     "objectID": "flowchart_presentation.html#safo-dataset",
     "href": "flowchart_presentation.html#safo-dataset",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "safo dataset",
-    "text": "safo dataset\n\nBuilt-in dataset\nRandomly generated dataset from the SAFO clinical trial1\n\n\n\n\n\n\n\n\n\n\nID\ndid not meet inclusion criteria\nmet exclusion criteria\ndeclined to participate\ntreatment received\nintention to treat (ITT)\nper protocol (PP)\n\n\n\n\n1\nYes\nNo\nNA\nNA\nNA\nNA\n\n\n2\nNo\nNo\nYes\nNA\nNA\nNA\n\n\n3\nNo\nNo\nNo\ncloxacillin plus fosfomycin\nYes\nYes\n\n\n4\nNo\nYes\nNA\nNA\nNA\nNA\n\n\n5\nNo\nNo\nNo\ncloxacillin plus fosfomycin\nYes\nYes\n\n\n6\nNo\nYes\nNA\nNA\nNA\nNA\n\n\n\n\n\n\n\n\nGrillo, S., Pujol, M., Miró, J.M. et al. Cloxacillin plus fosfomycin versus cloxacillin alone for methicillin-susceptible Staphylococcus aureus bacteremia: a randomized trial. Nat Med 29, 2518–2525 (2023)"
+    "text": "safo dataset\n\nIt’s the built-in dataset of the package.\nRandomly generated dataset from the SAFO clinical trial1.\n\n\n\n\n\n\n\n\n\n\nID\ndid not meet inclusion criteria\nmet exclusion criteria\ndeclined to participate\ntreatment received\nintention to treat (ITT)\nper protocol (PP)\n\n\n\n\n1\nYes\nNo\nNA\nNA\nNA\nNA\n\n\n2\nNo\nNo\nYes\nNA\nNA\nNA\n\n\n3\nNo\nNo\nNo\ncloxacillin plus fosfomycin\nYes\nYes\n\n\n4\nNo\nYes\nNA\nNA\nNA\nNA\n\n\n5\nNo\nNo\nNo\ncloxacillin plus fosfomycin\nYes\nYes\n\n\n6\nNo\nYes\nNA\nNA\nNA\nNA\n\n\n\n\n\n\n\n\nGrillo, S., Pujol, M., Miró, J.M. et al. Cloxacillin plus fosfomycin versus cloxacillin alone for methicillin-susceptible Staphylococcus aureus bacteremia: a randomized trial. Nat Med 29, 2518–2525 (2023)"
   },
   {
     "objectID": "flowchart_presentation.html#as_fc",
     "href": "flowchart_presentation.html#as_fc",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "as_fc()",
-    "text": "as_fc()\n\nAllows to initialize a dataset in the class fc created for this package\nCreates a flowchart with an initial box showing the total number of rows of the dataset\n\n\nlibrary(flowchart)\n\nsafo_fc &lt;- safo |&gt; \n  as_fc()"
+    "text": "as_fc()\n\nAllows to initialize a dataset in the class fc created for this package.\nCreates a flowchart with an initial box showing the total number of rows of the dataset.\n\n\nlibrary(flowchart)\n\nsafo_fc &lt;- safo |&gt; \n  as_fc()"
   },
   {
     "objectID": "flowchart_presentation.html#as_fc-1",
     "href": "flowchart_presentation.html#as_fc-1",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "as_fc()",
-    "text": "as_fc()\n\nAllows to initialize a dataset in the class fc created for this package\nCreates a flowchart with an initial box showing the total number of rows of the dataset\n\n\nlibrary(flowchart)\n\nsafo_fc &lt;- safo |&gt; \n  as_fc()\n\nstr(safo_fc, max.level = 1)\n\nList of 2\n $ data: tibble [925 × 21] (S3: tbl_df/tbl/data.frame)\n $ fc  : tibble [1 × 16] (S3: tbl_df/tbl/data.frame)\n - attr(*, \"class\")= chr \"fc\""
+    "text": "as_fc()\n\nAllows to initialize a dataset in the class fc created for this package.\nCreates a flowchart with an initial box showing the total number of rows of the dataset.\n\n\nlibrary(flowchart)\n\nsafo_fc &lt;- safo |&gt; \n  as_fc()\n\nstr(safo_fc, max.level = 1)\n\nList of 2\n $ data: tibble [925 × 21] (S3: tbl_df/tbl/data.frame)\n $ fc  : tibble [1 × 19] (S3: tbl_df/tbl/data.frame)\n - attr(*, \"class\")= chr \"fc\""
   },
   {
     "objectID": "flowchart_presentation.html#as_fc-2",
     "href": "flowchart_presentation.html#as_fc-2",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "as_fc()",
-    "text": "as_fc()\n\nsafo_fc$fc\n\n\n\n\n\n\n\n\n\nid\nx\ny\nn\nN\nperc\ntext\ntype\ngroup\njust\ntext_color\ntext_fs\ntext_fface\ntext_ffamily\nbg_fill\nborder_color\n\n\n\n\n1\n0.5\n0.5\n925\n925\n100\nInitial dataframe 925\ninit\nNA\ncenter\nblack\n8\n1\nNA\nwhite\nblack"
+    "text": "as_fc()\n\nsafo_fc$fc\n\n\n\n\n\n\n\n\n\nid\nx\ny\nn\nN\nperc\ntext\ntype\ngroup\njust\ntext_color\ntext_fs\ntext_fface\ntext_ffamily\ntext_padding\nbg_fill\nborder_color\nwidth\nheight\n\n\n\n\n1\n0.5\n0.5\n925\n925\n100\nInitial dataframe 925\ninit\nNA\ncenter\nblack\n8\n1\nNA\n1\nwhite\nblack\nNA\nNA"
   },
   {
     "objectID": "flowchart_presentation.html#fc_draw",
     "href": "flowchart_presentation.html#fc_draw",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_draw()",
-    "text": "fc_draw()\n\nAllows to draw a previously created fc object\n\n\nsafo |&gt; \n  as_fc()"
+    "text": "fc_draw()\n\nAllows to draw a previously created fc object:\n\n\nsafo |&gt; \n  as_fc()"
   },
   {
     "objectID": "flowchart_presentation.html#fc_draw-1",
     "href": "flowchart_presentation.html#fc_draw-1",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_draw()",
-    "text": "fc_draw()\n\nAllows to draw a previously created fc object\n\n\nsafo |&gt; \n  as_fc() |&gt; \n  fc_draw()"
+    "text": "fc_draw()\n\nAllows to draw a previously created fc object:\n\n\nsafo |&gt; \n  as_fc() |&gt; \n  fc_draw()"
   },
   {
     "objectID": "flowchart_presentation.html#fc_draw-2",
     "href": "flowchart_presentation.html#fc_draw-2",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_draw()",
-    "text": "fc_draw()\n\nAllows to draw a previously created fc object\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt; \n  fc_draw()\n\n\n\nWe can use the label argument to modify the box label"
+    "text": "fc_draw()\n\nAllows to draw a previously created fc object:\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt; \n  fc_draw()\n\n\n\n\nWe can use the label argument to modify the box label."
   },
   {
     "objectID": "flowchart_presentation.html#fc_filter",
     "href": "flowchart_presentation.html#fc_filter",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_filter()",
-    "text": "fc_filter()\n\nWe can filter an existing flowchart specifying the logic in which the filter is to be applied\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt; \n  fc_draw()"
+    "text": "fc_filter()\n\nWe can filter an existing flowchart specifying the logic in which the filter is to be applied:\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt; \n  fc_draw()"
   },
   {
     "objectID": "flowchart_presentation.html#fc_filter-1",
     "href": "flowchart_presentation.html#fc_filter-1",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_filter()",
-    "text": "fc_filter()\n\nWe can filter an existing flowchart specifying the logic in which the filter is to be applied\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group)) |&gt; \n  fc_draw()"
+    "text": "fc_filter()\n\nWe can filter an existing flowchart specifying the logic in which the filter is to be applied:\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group)) |&gt; \n  fc_draw()"
   },
   {
     "objectID": "flowchart_presentation.html#fc_filter-2",
     "href": "flowchart_presentation.html#fc_filter-2",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_filter()",
-    "text": "fc_filter()\n\nWe can filter an existing flowchart specifying the logic in which the filter is to be applied\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\") |&gt; \n  fc_draw()\n\n\n\n\n\n\n\n\n\n\n\n\nWe can change again the label"
+    "text": "fc_filter()\n\nWe can filter an existing flowchart specifying the logic in which the filter is to be applied:\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\") |&gt; \n  fc_draw()\n\n\n\n\n\n\n\n\n\n\n\n\nWe can change again the label."
   },
   {
     "objectID": "flowchart_presentation.html#fc_filter-3",
     "href": "flowchart_presentation.html#fc_filter-3",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_filter()",
-    "text": "fc_filter()\n\nWe can filter an existing flowchart specifying the logic in which the filter is to be applied\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw()\n\n\n\n\n\n\n\n\n\n\n\n\nWe can change again the label\nWe can use show_exc=TRUE to show the excluded rows"
+    "text": "fc_filter()\n\nWe can filter an existing flowchart specifying the logic in which the filter is to be applied:\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw()\n\n\n\n\n\n\n\n\n\n\n\n\nWe can change again the label.\nWe can use show_exc=TRUE to show the excluded rows."
   },
   {
     "objectID": "flowchart_presentation.html#fc_split",
     "href": "flowchart_presentation.html#fc_split",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_split()",
-    "text": "fc_split()\n\nWe can split an existing flowchart according to the different values of a column\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw()"
+    "text": "fc_split()\n\nWe can split an existing flowchart according to the different values of a column:\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw()"
   },
   {
     "objectID": "flowchart_presentation.html#fc_split-1",
     "href": "flowchart_presentation.html#fc_split-1",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_split()",
-    "text": "fc_split()\n\nWe can split an existing flowchart according to the different values of a column\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_split(group) |&gt; \n  fc_draw()"
+    "text": "fc_split()\n\nWe can split an existing flowchart according to the different values of a column:\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_split(group) |&gt; \n  fc_draw()"
   },
   {
     "objectID": "flowchart_presentation.html#modify-function-arguments",
     "href": "flowchart_presentation.html#modify-function-arguments",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "Modify function arguments",
-    "text": "Modify function arguments\n\n\nSome arguments common to as_fc(), fc_filter() and fc_split(), to customise the appearance of the boxes created at each step\n\n\n\n\n\nlabel=\n\n\nmodify the label.\n\n\n\n\ntext_pattern=\n\n\nmodify the pattern of the text (e.g. {label}\\n {n} ({perc}%).\n\n\n\n\njust=\n\n\nmodify the justification for the text.\n\n\n\n\ntext_color=\n\n\nmodify the color of the text.\n\n\n\n\ntext_fs=\n\n\nmodify the font size of the text.\n\n\n\n\nbg_fill=\n\n\nmodify the background color of the box.\n\n\n\n\nborder_color=\n\n\nmodify the border color of the box.\n\n\n\n\n\n\n\nOther arguments specific to each function (vignette)"
+    "text": "Modify function arguments\n\n\nSome arguments common to as_fc(), fc_filter() and fc_split(), to customise the appearance of the boxes created at each step:\n\n\n\n\n\nlabel=\n\n\nmodify the label.\n\n\n\n\ntext_pattern=\n\n\nmodify the pattern of the text (e.g. {label}\\n {n} ({perc}%).\n\n\n\n\nround_digits=\n\n\nnumber of digits to round percentages (default is 2)\n\n\n\n\njust=\n\n\nmodify the justification for the text.\n\n\n\n\ntext_color=\n\n\nmodify the color of the text.\n\n\n\n\ntext_fs=\n\n\nmodify the font size of the text.\n\n\n\n\ntext_fface=\n\n\nmodify the font face of the text.\n\n\n\n\ntext_ffamily=\n\n\nmodify the font family of the text.\n\n\n\n\ntext_padding=\n\n\nmodify the text padding inside the box.\n\n\n\n\nbg_fill=\n\n\nmodify the background color of the box.\n\n\n\n\nborder_color=\n\n\nmodify the border color of the box."
+  },
+  {
+    "objectID": "flowchart_presentation.html#modify-function-arguments-1",
+    "href": "flowchart_presentation.html#modify-function-arguments-1",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Modify function arguments",
+    "text": "Modify function arguments\n\nThere are a number of other arguments that you can check in the vignette:"
   },
   {
     "objectID": "flowchart_presentation.html#fc_modify",
     "href": "flowchart_presentation.html#fc_modify",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_modify()",
-    "text": "fc_modify()\n\nWe can modify the parameters of the created flowchart\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw()"
+    "text": "fc_modify()\n\nWe can modify the parameters of the created flowchart using the fc_modify() function:\n\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw()"
   },
   {
     "objectID": "flowchart_presentation.html#fc_modify-1",
     "href": "flowchart_presentation.html#fc_modify-1",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_modify()",
-    "text": "fc_modify()\n\nWe can modify the parameters of the created flowchart\n\n\nsafo_fc &lt;- safo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE)\n  \nsafo_fc$fc\n\n\n\n\n\n\n\n\n\n\nid\nx\ny\nn\nN\nperc\ntext\ntype\ngroup\njust\ntext_color\ntext_fs\ntext_fface\ntext_ffamily\nbg_fill\nborder_color\n\n\n\n\n1\n0.50\n0.6666667\n925\n925\n100\nPatients assessed for eligibility 925\ninit\nNA\ncenter\nblack\n8\n1\nNA\nwhite\nblack\n\n\n2\n0.50\n0.3333333\n215\n925\n23.24\nRandomized 215 (23.24%)\nfilter\nNA\ncenter\nblack\n8\n1\nNA\nwhite\nblack\n\n\n3\n0.65\n0.5000000\n710\n925\n76.76\nExcluded 710 (76.76%)\nexclude\nNA\ncenter\nblack\n6\n1\nNA\nwhite\nblack"
+    "text": "fc_modify()\n\nWe can modify the parameters of the created flowchart using the fc_modify() function:\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_view(\"fc\")\n\n\n\n\n\n\n\n\n\n\nid\nx\ny\nn\nN\nperc\ntext\ntype\ngroup\njust\ntext_color\ntext_fs\ntext_fface\ntext_ffamily\ntext_padding\nbg_fill\nborder_color\nwidth\nheight\n\n\n\n\n1\n0.50\n0.6666667\n925\n925\n100\nPatients assessed for eligibility 925\ninit\nNA\ncenter\nblack\n8\n1\nNA\n1\nwhite\nblack\nNA\nNA\n\n\n2\n0.50\n0.3333333\n215\n925\n23.24\nRandomized 215 (23.24%)\nfilter\nNA\ncenter\nblack\n8\n1\nNA\n1\nwhite\nblack\nNA\nNA\n\n\n3\n0.65\n0.5000000\n710\n925\n76.76\nExcluded 710 (76.76%)\nexclude\nNA\ncenter\nblack\n6\n1\nNA\n1\nwhite\nblack\nNA\nNA"
   },
   {
     "objectID": "flowchart_presentation.html#fc_modify-2",
     "href": "flowchart_presentation.html#fc_modify-2",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_modify()",
-    "text": "fc_modify()\n\nWe can modify the parameters of the created flowchart\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_modify(\n    ~ . |&gt; \n      mutate(\n        text = ifelse(id == 3, str_glue(\"- {sum(safo$inclusion_crit == 'Yes')} not met the inclusion criteria\\n- {sum(safo$exclusion_crit == 'Yes')} met the exclusion criteria\"), text),\n        x = ifelse(id == 3, 0.75, x)\n      )\n  ) |&gt; \n  fc_draw()"
+    "text": "fc_modify()\n\nWe can modify the parameters of the created flowchart using the fc_modify() function:\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_modify(\n    ~ . |&gt; \n      mutate(\n        text = ifelse(id == 3, str_glue(\"- {sum(safo$inclusion_crit == 'Yes')} not met the inclusion criteria\\n- {sum(safo$exclusion_crit == 'Yes')} met the exclusion criteria\"), text),\n        x = ifelse(id == 3, 0.75, x)\n      )\n  ) |&gt; \n  fc_draw()"
   },
   {
     "objectID": "flowchart_presentation.html#fc_modify-2-output",
     "href": "flowchart_presentation.html#fc_modify-2-output",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_modify()",
     "text": "fc_modify()"
   },
   {
     "objectID": "flowchart_presentation.html#fc_merge",
     "href": "flowchart_presentation.html#fc_merge",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_merge()",
-    "text": "fc_merge()\n\nWe can combine different flowcharts horizontally\n\n\n\n\nfc1 &lt;- safo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(itt == \"Yes\", label = \"Intention to treat (ITT)\")\n\nfc_draw(fc1)\n\n\n\n\n\n\n\n\n\n\nfc2 &lt;- safo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(pp == \"Yes\", label = \"Per protocol (PP)\")\n\nfc_draw(fc2)"
+    "text": "fc_merge()\n\nWe can combine different flowcharts horizontally:\n\n\n\n\nfc1 &lt;- safo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(itt == \"Yes\", label = \"Intention to treat (ITT)\")\n\nfc_draw(fc1)\n\n\n\n\n\n\n\n\n\n\nfc2 &lt;- safo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(pp == \"Yes\", label = \"Per protocol (PP)\")\n\nfc_draw(fc2)"
   },
   {
     "objectID": "flowchart_presentation.html#fc_merge-1",
     "href": "flowchart_presentation.html#fc_merge-1",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_merge()",
-    "text": "fc_merge()\n\nWe can combine different flowcharts horizontally\n\n\nlist(fc1, fc2) |&gt;\n  fc_merge()"
+    "text": "fc_merge()\n\nWe can combine different flowcharts horizontally:\n\n\nlist(fc1, fc2) |&gt;\n  fc_merge()"
   },
   {
     "objectID": "flowchart_presentation.html#fc_merge-2",
     "href": "flowchart_presentation.html#fc_merge-2",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_merge()",
-    "text": "fc_merge()\n\nWe can combine different flowcharts horizontally\n\n\nlist(fc1, fc2) |&gt;\n  fc_merge() |&gt;\n  fc_draw()"
+    "text": "fc_merge()\n\nWe can combine different flowcharts horizontally:\n\n\nlist(fc1, fc2) |&gt;\n  fc_merge() |&gt;\n  fc_draw()"
   },
   {
     "objectID": "flowchart_presentation.html#fc_export",
     "href": "flowchart_presentation.html#fc_export",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_export()",
-    "text": "fc_export()\n\nWe can export the drawn flowchart to some of the most popular graphic devices: png, jpeg, tiff and bmp\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw()"
+    "text": "fc_export()\n\nWe can export the drawn flowchart to some of the most popular graphic devices.\nThese include both bitmap (png, jpeg, tiff, bmp) and vector (svg, pdf) formats.\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw()"
   },
   {
     "objectID": "flowchart_presentation.html#fc_export-1",
     "href": "flowchart_presentation.html#fc_export-1",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_export()",
-    "text": "fc_export()\n\nWe can export the drawn flowchart to some of the most popular graphic devices: png, jpeg, tiff and bmp\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw() |&gt; \n  fc_export(\"flowchart.png\")"
+    "text": "fc_export()\n\nWe can export the drawn flowchart to some of the most popular graphic devices.\nThese include both bitmap (png, jpeg, tiff, bmp) and vector (svg, pdf) formats.\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw() |&gt; \n  fc_export(\"flowchart.png\")"
   },
   {
     "objectID": "flowchart_presentation.html#fc_export-2",
     "href": "flowchart_presentation.html#fc_export-2",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "fc_export()",
-    "text": "fc_export()\n\nWe can export the drawn flowchart to some of the most popular graphic devices: png, jpeg, tiff and bmp\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw() |&gt; \n  fc_export(\"flowchart.png\", width = 2500, height = 2000, res = 700)\n\n\nWe can customize the size and resolution of the image to save"
+    "text": "fc_export()\n\nWe can export the drawn flowchart to some of the most popular graphic devices.\nThese include both bitmap (png, jpeg, tiff, bmp) and vector (svg, pdf) formats.\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw() |&gt; \n  fc_export(\"flowchart.png\", width = 3000, height = 4000, res = 700)\n\n\nWe can customize the size and resolution of the image to save."
   },
   {
     "objectID": "flowchart_presentation.html#example-1",
     "href": "flowchart_presentation.html#example-1",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "Example 1",
-    "text": "Example 1\n\nWe will try to build a flowchart for the complete participant flow of the SAFO study trial"
+    "text": "Example 1\n\nWe will try to build a flowchart for the complete participant flow of the SAFO study trial:"
   },
   {
     "objectID": "flowchart_presentation.html#example-1-1",
     "href": "flowchart_presentation.html#example-1-1",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "Example 1",
     "text": "Example 1\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_draw()"
   },
   {
     "objectID": "flowchart_presentation.html#example-1-2",
     "href": "flowchart_presentation.html#example-1-2",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "Example 1",
     "text": "Example 1\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_draw()"
   },
   {
     "objectID": "flowchart_presentation.html#example-1-3",
     "href": "flowchart_presentation.html#example-1-3",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "Example 1",
     "text": "Example 1\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_split(group) |&gt; \n  fc_draw()"
   },
   {
     "objectID": "flowchart_presentation.html#example-1-4",
     "href": "flowchart_presentation.html#example-1-4",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "Example 1",
     "text": "Example 1\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_split(group) |&gt; \n  fc_filter(itt == \"Yes\", label = \"Included in ITT\") |&gt; \n  fc_draw()"
   },
   {
     "objectID": "flowchart_presentation.html#example-1-5",
     "href": "flowchart_presentation.html#example-1-5",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "Example 1",
     "text": "Example 1\n\n\nsafo |&gt; \n  as_fc(label = \"Patients assessed for eligibility\") |&gt;\n  fc_filter(!is.na(group), label = \"Randomized\", show_exc = TRUE) |&gt; \n  fc_split(group) |&gt; \n  fc_filter(itt == \"Yes\", label = \"Included in ITT\") |&gt; \n  fc_filter(pp == \"Yes\", label = \"Included in PP\") |&gt; \n  fc_draw()"
   },
   {
-    "objectID": "flowchart_presentation.html#example-1-6",
-    "href": "flowchart_presentation.html#example-1-6",
-    "title": "",
-    "section": "Example 1",
-    "text": "Example 1\n\nIn the vignette there is the full example to exactly reproduce the flowchart found in the SAFO article:\n\n\n Grillo, S., Pujol, M., Miró, J.M. et al. Cloxacillin plus fosfomycin versus cloxacillin alone for methicillin-susceptible Staphylococcus aureus bacteremia: a randomized trial. Nat Med 29, 2518–2525 (2023). https://doi.org/10.1038/s41591-023-02569-0"
-  },
-  {
     "objectID": "flowchart_presentation.html#example-2",
     "href": "flowchart_presentation.html#example-2",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "Example 2",
-    "text": "Example 2\n\nNow, we will create a flowchart without any dataset using the N= argument"
+    "text": "Example 2\n\nNow let’s try to customize it in order to exactly reproduce the original flowchart of the SAFO study published in Nature Medicine:"
   },
   {
     "objectID": "flowchart_presentation.html#example-2-1",
     "href": "flowchart_presentation.html#example-2-1",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "Example 2",
-    "text": "Example 2\n\n\nas_fc(N = 300) |&gt; \n  fc_draw()"
+    "text": "Example 2\n\nFirst, we have to build the text in the exclude boxes:\n\n\n#For the first exclude box:\nlabel_exc &lt;- paste(\n  c(str_glue(\"{sum(safo$inclusion_crit == 'Yes' | safo$exclusion_crit == 'Yes' | safo$decline_part == 'Yes', na.rm = T)} excluded:\"),\n    map_chr(c(\"inclusion_crit\", \"decline_part\", \"exclusion_crit\"), ~str_glue(\"{sum(safo[[.x]] == 'Yes', na.rm = TRUE)} {attr(safo[[.x]], 'label')}\")),\n    map_chr(4:15, ~str_glue(\" -  {sum(safo[[.x]] == 'Yes')} {attr(safo[[.x]], 'label')}\"))),\n  collapse = \"\\n\")\n\nlabel_exc &lt;- gsub(\"exclusion criteria\", \"exclusion criteria:\", label_exc)\n  \ncat(label_exc)"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-1-output",
+    "href": "flowchart_presentation.html#example-2-1-output",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 2",
+    "text": "Example 2\n\n710 excluded:\n136 did not meet inclusion criteria\n134 declined to participate\n440 met exclusion criteria:\n -  133 chronic heart failure\n -  70 clinical status with expected death in &lt;24h\n -  68 polymicrobial bacteremia\n -  56 conditions expected to affect adhrence to the protocol\n -  53 suspicion of prosthetic valve endocarditis\n -  33 severe liver cirrhosis\n -  27 acute SARS-CoV-2 infection\n -  28 beta-lactam or fosfomycin hypersensitivity\n -  10 participation in another clinical trial\n -  5 pregnancy or breastfeeding\n -  4 previous participation in the SAFO trial\n -  3 myasthenia gravis"
   },
   {
     "objectID": "flowchart_presentation.html#example-2-2",
     "href": "flowchart_presentation.html#example-2-2",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "Example 2",
-    "text": "Example 2\n\n\nas_fc(N = 300) |&gt;\n  fc_filter(N = 240, label = \"Randomized patients\", show_exc = TRUE) |&gt; \n  fc_draw()"
+    "text": "Example 2\n\nFirst, we have to build the text in the exclude boxes:\n\n\n#For the PP exclude box (cloxacillin plus fosfomycin):\nsafo1 &lt;- safo |&gt; \n    filter(group == \"cloxacillin plus fosfomycin\", !is.na(reason_pp)) |&gt; \n    mutate(reason_pp = droplevels(reason_pp))\n\nlabel_exc1 &lt;- paste(\n    c(str_glue(\"{nrow(safo1)} excluded:\"),\n      map_chr(levels(safo1$reason_pp), ~str_glue(\" -  {sum(safo1$reason_pp == .x)} {.x}\"))),\n    collapse = \"\\n\")\n\nlabel_exc1 &lt;- str_replace_all(label_exc1, c(\"nosocomial\" = \"nosocomial\\n\", \"treatment\" = \"treatment\\n\"))\n\ncat(label_exc1)"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-2-output",
+    "href": "flowchart_presentation.html#example-2-2-output",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 2",
+    "text": "Example 2\n\n3 excluded:\n -  2 fosfomycin-resistant strain in index blood cultures\n -  1 protocol violation"
   },
   {
     "objectID": "flowchart_presentation.html#example-2-3",
     "href": "flowchart_presentation.html#example-2-3",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "Example 2",
-    "text": "Example 2\n\n\nas_fc(N = 300) |&gt;\n  fc_filter(N = 240, label = \"Randomized patients\", show_exc = TRUE) |&gt; \n  fc_split(N = c(100, 80, 60), label = c(\"Group A\", \"Group B\", \"Group C\")) |&gt;\n  fc_draw()"
+    "text": "Example 2\n\nFirst, we have to build the text in the exclude boxes:\n\n\nsafo2 &lt;- safo |&gt; \n  filter(group == \"cloxacillin alone\", !is.na(reason_pp)) |&gt; \n  mutate(reason_pp = droplevels(reason_pp))\n\nlabel_exc2 &lt;- paste(\n  c(str_glue(\"{nrow(safo2)} excluded:\"),\n    map_chr(levels(safo2$reason_pp), ~str_glue(\" -  {sum(safo2$reason_pp == .x)} {.x}\"))),\n  collapse = \"\\n\")\n\nlabel_exc2 &lt;- str_replace_all(label_exc2, c(\"resistant\" = \"resistant\\n\", \"blood\" = \"blood\\n\"))\n\ncat(label_exc2)"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-3-output",
+    "href": "flowchart_presentation.html#example-2-3-output",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 2",
+    "text": "Example 2\n\n4 excluded:\n -  1 nosocomial SARS-CoV-2 infection\n -  1 treatment discontinuation (phlebitis)\n -  1 withdrew consent\n -  1 protocol violation"
   },
   {
     "objectID": "flowchart_presentation.html#example-2-4",
     "href": "flowchart_presentation.html#example-2-4",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "Example 2",
-    "text": "Example 2\n\n\nas_fc(N = 300) |&gt;\n  fc_filter(N = 240, label = \"Randomized patients\", show_exc = TRUE) |&gt; \n  fc_split(N = c(100, 80, 60), label = c(\"Group A\", \"Group B\", \"Group C\")) |&gt;\n  fc_filter(N = c(80, 75, 50), label = \"Finished the study\") |&gt; \n  fc_draw()"
+    "text": "Example 2\n\nsafo |&gt; \n  as_fc(label = \"patients assessed for eligibility\", text_pattern = \"{N} {label}\") |&gt;\n  fc_draw()"
   },
   {
-    "objectID": "flowchart_presentation.html#conclusions",
-    "href": "flowchart_presentation.html#conclusions",
-    "title": "",
+    "objectID": "flowchart_presentation.html#example-2-4-output",
+    "href": "flowchart_presentation.html#example-2-4-output",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 2",
+    "text": "Example 2"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-5",
+    "href": "flowchart_presentation.html#example-2-5",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 2",
+    "text": "Example 2\n\nsafo |&gt; \n  as_fc(label = \"patients assessed for eligibility\", text_pattern = \"{N} {label}\") |&gt;\n  fc_filter(!is.na(group), label = \"randomized\", text_pattern = \"{n} {label}\", show_exc = TRUE, just_exc = \"left\", text_pattern_exc = \"{label}\", label_exc = label_exc, text_fs_exc = 7, offset_exc = 0.15) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-5-output",
+    "href": "flowchart_presentation.html#example-2-5-output",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 2",
+    "text": "Example 2"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-6",
+    "href": "flowchart_presentation.html#example-2-6",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 2",
+    "text": "Example 2\n\nsafo |&gt; \n  as_fc(label = \"patients assessed for eligibility\", text_pattern = \"{N} {label}\") |&gt;\n  fc_filter(!is.na(group), label = \"randomized\", text_pattern = \"{n} {label}\", show_exc = TRUE, just_exc = \"left\", text_pattern_exc = \"{label}\", label_exc = label_exc, text_fs_exc = 7, offset_exc = 0.15) |&gt; \n  fc_split(group, text_pattern = \"{n} assigned\\n {label}\") |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-6-output",
+    "href": "flowchart_presentation.html#example-2-6-output",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 2",
+    "text": "Example 2"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-7",
+    "href": "flowchart_presentation.html#example-2-7",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 2",
+    "text": "Example 2\n\nsafo |&gt; \n  as_fc(label = \"patients assessed for eligibility\", text_pattern = \"{N} {label}\") |&gt;\n  fc_filter(!is.na(group), label = \"randomized\", text_pattern = \"{n} {label}\", show_exc = TRUE, just_exc = \"left\", text_pattern_exc = \"{label}\", label_exc = label_exc, text_fs_exc = 7, offset_exc = 0.15) |&gt; \n  fc_split(group, text_pattern = \"{n} assigned\\n {label}\") |&gt; \n  fc_filter(itt == \"Yes\", label = \"included in intention-to-treat\\n population\", show_exc = TRUE, text_pattern = \"{n} {label}\", label_exc = \"patient did not receive allocated\\n treatment (withdrew consent)\", text_pattern_exc = \"{n} {label}\", text_fs_exc = 7) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-7-output",
+    "href": "flowchart_presentation.html#example-2-7-output",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 2",
+    "text": "Example 2"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-8",
+    "href": "flowchart_presentation.html#example-2-8",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 2",
+    "text": "Example 2\n\nsafo |&gt; \n  as_fc(label = \"patients assessed for eligibility\", text_pattern = \"{N} {label}\") |&gt;\n  fc_filter(!is.na(group), label = \"randomized\", text_pattern = \"{n} {label}\", show_exc = TRUE, just_exc = \"left\", text_pattern_exc = \"{label}\", label_exc = label_exc, text_fs_exc = 7, offset_exc = 0.15) |&gt; \n  fc_split(group, text_pattern = \"{n} assigned\\n {label}\") |&gt; \n  fc_filter(itt == \"Yes\", label = \"included in intention-to-treat\\n population\", show_exc = TRUE, text_pattern = \"{n} {label}\", label_exc = \"patient did not receive allocated\\n treatment (withdrew consent)\", text_pattern_exc = \"{n} {label}\", text_fs_exc = 7) |&gt; \n  fc_filter(pp == \"Yes\", label = \"included in per-protocol\\n population\", show_exc = TRUE, just_exc = \"left\", text_pattern = \"{n} {label}\", text_fs_exc = 7) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-8-output",
+    "href": "flowchart_presentation.html#example-2-8-output",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 2",
+    "text": "Example 2"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-9",
+    "href": "flowchart_presentation.html#example-2-9",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 2",
+    "text": "Example 2\n\nNow let’s use fc_modify() to change the existing texts for the ones we created:\n\n\nsafo |&gt; \n  as_fc(label = \"patients assessed for eligibility\", text_pattern = \"{N} {label}\") |&gt; \n  fc_filter(!is.na(group), label = \"randomized\", text_pattern = \"{n} {label}\", show_exc = TRUE, just_exc = \"left\", text_pattern_exc = \"{label}\", label_exc = label_exc, text_fs_exc = 7, offset_exc = 0.15) |&gt;\n  fc_split(group, text_pattern = \"{n} asssigned\\n {label}\") |&gt; \n  fc_filter(itt == \"Yes\", label = \"included in intention-to-treat\\n population\", show_exc = TRUE, text_pattern = \"{n} {label}\", label_exc = \"patient did not receive allocated\\n treatment (withdrew consent)\", text_pattern_exc = \"{n} {label}\", text_fs_exc = 7) |&gt;\n  fc_filter(pp == \"Yes\", label = \"included in per-protocol\\n population\", show_exc = TRUE, just_exc = \"left\", text_pattern = \"{n} {label}\", text_fs_exc = 7, offset_exc = c(0, -0.01)) |&gt; \n  fc_modify(\n    ~.x |&gt; \n      filter(n != 0) |&gt; \n      mutate(\n        text = case_when(id == 11 ~ label_exc1, id == 13 ~ label_exc2, TRUE ~ text)\n      )\n  ) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-2-9-output",
+    "href": "flowchart_presentation.html#example-2-9-output",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 2",
+    "text": "Example 2"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-3",
+    "href": "flowchart_presentation.html#example-3",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 3",
+    "text": "Example 3\n\nNow, we will create a flowchart without any dataset using the N= argument:"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-3-1",
+    "href": "flowchart_presentation.html#example-3-1",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 3",
+    "text": "Example 3\n\n\nas_fc(N = 300, label = \"Available patients\") |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-3-2",
+    "href": "flowchart_presentation.html#example-3-2",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 3",
+    "text": "Example 3\n\n\nas_fc(N = 300, label = \"Available patients\") |&gt;\n  fc_filter(N = 240, label = \"Randomized patients\", show_exc = TRUE) |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-3-3",
+    "href": "flowchart_presentation.html#example-3-3",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 3",
+    "text": "Example 3\n\n\nas_fc(N = 300, label = \"Available patients\") |&gt;\n  fc_filter(N = 240, label = \"Randomized patients\", show_exc = TRUE) |&gt; \n  fc_split(N = c(100, 80, 60), label = c(\"Group A\", \"Group B\", \"Group C\")) |&gt;\n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#example-3-4",
+    "href": "flowchart_presentation.html#example-3-4",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Example 3",
+    "text": "Example 3\n\n\nas_fc(N = 300, label = \"Available patients\") |&gt;\n  fc_filter(N = 240, label = \"Randomized patients\", show_exc = TRUE) |&gt; \n  fc_split(N = c(100, 80, 60), label = c(\"Group A\", \"Group B\", \"Group C\")) |&gt;\n  fc_filter(N = c(80, 75, 50), label = \"Finished the study\") |&gt; \n  fc_draw()"
+  },
+  {
+    "objectID": "flowchart_presentation.html#conclusions-1",
+    "href": "flowchart_presentation.html#conclusions-1",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "Conclusions",
-    "text": "Conclusions\n\n\nA clear and detailed reporting of the flow of participants in health research studies is required and recommended\nWith this package, flowchart programming in R is made easier and accessible within the tidyverse workflow\nFlowchart reproducibility is assured\nAs a limitation, we have not considered all possible scenarios and study designs, although is highly customizable\nAs future developments:\n\nDefine style themes\nShiny application"
+    "text": "Conclusions\n\n\nA clear and detailed reporting of the flow of participants in health research studies is required and recommended.\nWith this package, flowchart programming in R is made easier and accessible within the tidyverse workflow.\nFlowchart reproducibility is assured.\nAs a limitation, we have not considered all possible scenarios and study designs, although is highly customizable.\nAs future developments:\n\nDefine style themes using a function fc_theme().\nShiny application."
+  },
+  {
+    "objectID": "flowchart_presentation.html#conclusions-2",
+    "href": "flowchart_presentation.html#conclusions-2",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
+    "section": "Conclusions",
+    "text": "Conclusions\n\n\n\n\n\n\n\n\n\n“Readers should not have to infer what was probably done; they should be told explicitly.”\n\n\n\nDouglas G. Altman"
   },
   {
     "objectID": "flowchart_presentation.html#more-information",
     "href": "flowchart_presentation.html#more-information",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "More information",
     "text": "More information\n\nYou can visit the {flowchart} website: https://bruigtp.github.io/flowchart/"
   },
   {
     "objectID": "flowchart_presentation.html#contact",
     "href": "flowchart_presentation.html#contact",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "Contact",
-    "text": "Contact\nIGTP Biostatistics Support and Research Unit:\n\n\nPau Satorra\nAuthor, maintainer psatorra@igtp.cat\n\nJoão Carmezim\nAuthor\n\nNatàlia Pallarès\nAuthor\n\nCristian Tebé\nAuthor\n\n\n\n github.com/bruigtp"
+    "text": "Contact\nIGTP Biostatistics Support and Research Unit:\n\n\nPau Satorra\n\nJoão Carmezim\n\nNatàlia Pallarès\n\nCristian Tebé\n\nLucia Blanc\n\n\n\n\n github.com/bruigtp"
   },
   {
     "objectID": "flowchart_presentation.html#section",
     "href": "flowchart_presentation.html#section",
-    "title": "",
+    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "",
-    "text": "Thank you!\n\n\n\n\n\n\n\nuseR! 2024 - {flowchart}"
+    "text": "Thank you!\n\n\n\n\n\n\n\nDouglas Altman Sessions"
   }
 ]
