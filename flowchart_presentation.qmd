@@ -387,7 +387,7 @@ Alexander Calder (1898-1976)
 - Published in CRAN since Feburary 2024. Current version: `0.8.0`.
 
 <center>
-![flowchart CRAN page](WWW/flowchart_CRAN.png){width="90%"}
+![flowchart CRAN page](WWW/flowchart_website.png){width="90%"}
 </center>
 
 ## Overview of the package
@@ -1193,11 +1193,37 @@ Lucia Blanc
 :::
 :::
 
-## 
+## Thank you!
 
-::: {style="position: absolute; left: 50%; top: 50%;-webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);"}
+<br>
+<br>
+<br>
+<br>
+
+::: columns
+
+:::  {.column width="40%"}
+
+<div style = "margin-top: -20%">
 <center>
+
 ![](WWW/logo.png){width="75%"}
-<h2>Thank you!</h2>
 </center>
+</div>
+:::
+
+:::  {.column width="60%"}
+
+<center>
+
+Useful links:
+
+`r fontawesome::fa("github")` [github.com/bruigtp](https://github.com/bruigtp/)
+
+`r fontawesome::fa("globe")` [https://bruigtp.github.io/flowchart/](https://bruigtp.github.io/flowchart/)
+
+</center>
+
+:::
+
 :::
