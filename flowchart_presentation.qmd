@@ -45,17 +45,9 @@ editor_options:
 
 **3.** The {flowchart} package
 
-**4.** How to create a flowchart?
+**4.** Hands-on examples
 
-**5.** Customize a flowchart
-
-**6.** Combine flowcharts
-
-**7.** Export a flowchart
-
-**8.** Hands-on examples
-
-**9.** Conclusions
+**5.** Conclusions
 
 # Introduction
 
