@@ -4,23 +4,25 @@ title-slide-attributes:
   data-background-image: WWW/title.png
   data-background-size: contain
   data-background-opacity: "0.6"
+  data-background-color: "lightgrey"
 author: 
- - name: "Pau Satorra"
+ - name: "**Pau<br>Satorra**
+ "
    affiliations: 
     - name: "Biostatistics Support and Research Unit, IGTP" 
- - name: "João Carmezim"
+ - name: "**João Carmezim**"
    affiliations: 
     - name: "Biostatistics Support and Research Unit, IGTP" 
- - name: "Natàlia Pallarès"
+ - name: "**Natàlia Pallarès**"
    affiliations: 
     - name: "Biostatistics Support and Research Unit, IGTP" 
- - name: "Kenneth A. Taylor"
+ - name: "**Kenneth A. Taylor**"
    affiliations: 
     - name: "Komodo Health, University of South Florida"
- - name: "Cristian Tebé"
+ - name: "**Cristian<br>Tebé**"
    affiliations: 
     - name: "Biostatistics Support and Research Unit, IGTP"
-date: "2025-04-24"
+date: "2025-09-17"
 date-format: long
 format: 
   revealjs:
@@ -28,28 +30,26 @@ format:
     embed-resources: true
     code-line-numbers: false
     code-copy: true
-    footer: "Douglas Altman Sessions"
+    footer: "XX Conferencia Española de Bioestadística (CEB)"
     slide-number: false
-    logo: WWW/logo.png
+    logo: WWW/IGTP_logo.svg
 execute: 
   echo: true
 editor_options: 
   chunk_output_type: console
 ---
 
-# Index 
+# Index {background-color="lightgrey"}
 
 **1.** Introduction
 
-**2.** The tidyverse
+**2.** The {flowchart} package
 
-**3.** The {flowchart} package
+**3.** Hands-on examples
 
-**4.** Hands-on examples
+**4.** Conclusions
 
-**5.** Conclusions
-
-# Introduction
+# Introduction {background-color="lightgrey"}
 
 ## Flowcharts
 
@@ -59,28 +59,7 @@ editor_options:
 
 - It is essential that the steps and numbers are clearly defined and that the process is transparent in order to ensure the reproducibility of the study and the quality of the reporting.
 
-## Flowcharts {auto-animate=true}
-
-- Participant flowcharts evolved from the broader concept of flowcharts introduced by industrial engineers.
-
-- Frank and Lillian Gilbreth introduced the idea of flowcharts in 1921 as "Flow Process Charts" to the American Society of Mechanical Engineers:
-
-## Flowcharts {auto-animate=true}
-
-![](WWW/first_flowchart.png){fig-align="center"}
-
-
-## Flowcharts in clinical research {auto-animate=true}
-
 - In clinical research, the CONSORT, STROBE and ICH guidelines strongly recommend the use of flowcharts.
-
-- The CONSORT guideline provides a template for the elaboration of a flowchart in the context of a randomized trial of two groups:
-
-## Flowcharts in clinical research {auto-animate=true}
-
-<center>
-![](WWW/consort_flowchart.jpg){width="50%"}
-</center>
 
 ## Flowchart creation
 
@@ -90,21 +69,11 @@ editor_options:
 
 - Usually this process must be repeated many times until the database is closed for analysis. 
 
-<!-- ## flowchart creation -->
-
-<!-- <center> -->
-<!-- ![](WWW/question.jpg) -->
-<!-- </center> -->
-
-## flowchart packages
+## Flowchart packages
 
 - There are several R packages dedicated to building flowcharts: {Gmisc}, {DiagrammeR}, {consort}, {ggflowchart}.
 
-- Complex programming and manual parameterization are often involved.
-
-- Some are designed for building other kind of diagrams.
-
-- They are not adapted to the tidyverse.
+- Some involve complex programming and manual parameterization and others are designed for building other kind of diagrams.
 
 ## {Gmisc} package
 
@@ -177,177 +146,7 @@ grps
 excluded
 ```
 
-# The tidyverse
-
-## The tidyverse
-
-::: {.callout-note appearance="simple"}
-A set of R packages ideal for data management. They will make your life a lot easier.
-:::
-
-![](WWW/tidyverse_packages.png)
-
-## The tidyverse
-
-- The philosophy of tidyverse is to concatenate basic functions applied to a tibble (dataframe) to accomplish complex manipulations integrated into a tidy workflow.
-
-- The tidyverse workflow is based on the usage of the pipe operator, which can be the native pipe (`|>`) or the magrittr pipe (`%>%`).
-
-## Pipe operator {auto-animate=true}
-
-:::: {.columns}
-
-::: {.column width="30%"}
-
-![](WWW/pipe.png){fig-align="center"}
-
-:::
-
-::: {.column width="70%"}
-
-- The pipe operator allows to concatenate multiple functions applied to the same object:
-
-```{r}
-#Round π to 6 decimals
-round(pi, 6)
-```
-
-:::
-
-::::
-
-
-## Pipe operator {auto-animate=true}
-
-:::: {.columns}
-
-::: {.column width="30%"}
-
-![](WWW/pipe.png){fig-align="center"}
-
-:::
-
-::: {.column width="70%"}
-
-- The pipe operator allows to concatenate multiple functions applied to the same object:
-
-```{r}
-#Equivalent using pipes
-pi |> round(6)
-```
-
-:::
-
-::::
-
-## Pipe operator {auto-animate=true}
-
-:::: {.columns}
-
-::: {.column width="30%"}
-
-![](WWW/pipe.png){fig-align="center"}
-
-:::
-
-::: {.column width="70%"}
-
-- The pipe operator allows to concatenate multiple functions applied to the same object:
-
-```{r}
-#Exponential of the square root of π and then round to 6 decimals
-round(exp(sqrt(pi)), 6)
-```
-
-:::
-
-::::
-
-## Pipe operator {auto-animate=true}
-
-:::: {.columns}
-
-::: {.column width="30%"}
-
-![](WWW/pipe.png){fig-align="center"}
-
-:::
-
-::: {.column width="70%"}
-
-- The pipe operator allows to concatenate multiple functions applied to the same object:
-
-```{r}
-#Equivalent using pipes
-pi |> 
-  sqrt() |> 
-  exp() |> 
-  round(6)
-```
-
-:::
-
-::::
-
-## The tidyverse {auto-animate=true}
-
-- This is an example of what a tidyverse workflow looks like compared to base R:
-
-<div style = "font-size: 23px;">
-
-```{r}
-filter_iris <- subset(iris, Species == "setosa")
-
-sel_filter_iris <- filter_iris[, c("Sepal.Length", "Sepal.Width")]
-
-sel_filter_iris$Sepal.Size <- ifelse(sel_filter_iris$Sepal.Length > mean(sel_filter_iris$Sepal.Length) & sel_filter_iris$Sepal.Width > mean(sel_filter_iris$Sepal.Width), 2, 1)
-
-sel_filter_iris$Sepal.Size <- factor(sel_filter_iris$Sepal.Size, levels = 1:2, labels = c("Small", "Big"))
-
-small_iris <- sel_filter_iris[sel_filter_iris$Sepal.Size == "Small",]
-
-small_sepal_area <- mean(small_iris[,"Sepal.Length"] * small_iris[,"Sepal.Width"])
-
-big_iris <- sel_filter_iris[sel_filter_iris$Sepal.Size == "Big",]
-
-big_sepal_area <- mean(big_iris[,"Sepal.Length"] * big_iris[,"Sepal.Width"])
-
-data.frame(
-  "Sepal.Size" = c("Small", "Big"),
-  "Sepal.Area" = c(small_sepal_area, big_sepal_area)
-)
-```
-
-</div>
-
-## The tidyverse {auto-animate=true}
-
-- This is an example of what a tidyverse workflow looks like compared to base R:
-
-<div style = "font-size: 23px;">
-
-```{r}
-library(dplyr)
-
-iris |> 
-  filter(Species == "setosa") |> 
-  select(Sepal.Length, Sepal.Width) |> 
-  mutate(
-    Sepal.Size = case_when(
-      Sepal.Length > mean(Sepal.Length) & Sepal.Width > mean(Sepal.Width) ~ 2,
-      .default = 1
-    ),
-    Sepal.Size = factor(Sepal.Size, levels = 1:2, labels = c("Small", "Big")) 
-  ) |> 
-  group_by(Sepal.Size) |> 
-  summarise(
-    Sepal.Area = mean(Sepal.Length*Sepal.Width)
-  )
-```
-
-</div>
-  
-# The {flowchart} package
+# The {flowchart} package {background-color="lightgrey"}
 
 ## {flowchart} 
 
@@ -356,10 +155,16 @@ iris |>
 ::: {.column width="30%"}
 
 ![](WWW/logo.png){fig-align="center"}
+:::
+
+::: {.column width="5%"}
+
+<hr style="width:2px; height:400px; background-color:#E0B046; border:none; margin-top: 30% !important; margin:0 auto; " />
 
 :::
 
-::: {.column width="70%"}
+::: {.column width="65%"}
+
 
 - It adapts the {Gmisc} package to the tidyverse and makes it more automatizable.
 
@@ -373,6 +178,17 @@ iris |>
 
 ::::
 
+<br>
+
+Published in CRAN since February 2024:
+
+<center>
+[<img src="https://www.r-pkg.org/badges/version/flowchart" height="30">](https://cran.r-project.org/web/packages/flowchart/index.html)&#160;&#160;
+[<img src="https://codecov.io/gh/bruigtp/flowchart/branch/main/graph/badge.svg" height="30">](https://app.codecov.io/gh/bruigtp/flowchart?branch=main)&#160;&#160;
+[<img src="https://cranlogs.r-pkg.org/badges/flowchart" height="30">](https://cran.r-project.org/package=flowchart)&#160;&#160;
+[<img src="https://cranlogs.r-pkg.org/badges/grand-total/flowchart" height="30">](https://cran.r-project.org/package=flowchart)
+</center>
+
 ## {flowchart}
 
 <center>
@@ -380,14 +196,6 @@ iris |>
 
 Alexander Calder (1898-1976)
 
-</center>
-
-## {flowchart}
-
-- Published in CRAN since Feburary 2024. Current version: `0.8.0`.
-
-<center>
-![flowchart CRAN page](WWW/flowchart_website.png){width="90%"}
 </center>
 
 ## Overview of the package
@@ -423,6 +231,7 @@ Alexander Calder (1898-1976)
 -   Customize flowcharts:
     
     -   `fc_modify()`
+    -   `fc_theme()`
     
 :::
 
@@ -450,7 +259,7 @@ head(safo[, c("id", "inclusion_crit", "exclusion_crit", "decline_part", "group",
   gt::cols_align("center")
 ```
 
-# How to create a flowchart
+# How to create a flowchart {background-color="lightgrey"}
 
 ## `as_fc()` 
 
@@ -488,7 +297,12 @@ str(safo_fc, max.level = 1)
 `safo_fc$fc`
 
 ```{r echo=FALSE}
-safo_fc$fc |> gt::gt()
+safo_fc$fc |> 
+  gt::gt() |> 
+  gt::tab_options(
+    table.font.size = "small"   # or "x-small", "80%", etc.
+    # heading.padding.horizontal = gt::px(2)     # reduce cell padding
+  )
 ```
 
 :::
@@ -516,7 +330,7 @@ safo |>
 
 -   Allows to draw a previously created `fc` object:
 
-```{r echo=TRUE, fig.width = 3, fig.height = 2, fig.align = "center"}
+```{r echo=TRUE, fig.width = 5, fig.height = 2, fig.align = "center"}
 #| classes: custom2
 safo |> 
   as_fc(label = "Patients assessed for eligibility") |> 
@@ -617,12 +431,13 @@ safo |>
   fc_draw()
 ```
 
-# Customize a flowchart
+# Customize a flowchart {background-color="lightgrey"}
 
 ## Modify function arguments {auto-animate=true}
 
+- We can customize the flowchart either with the arguments provided by each function: `as_fc()`, `fc_filter()` and `fc_split()`.
+
 ::: {style="font-size: 25px;"}
--   Some arguments common to `as_fc()`, `fc_filter()` and `fc_split()`, to customise the appearance of the boxes created at each step:
 
 <table>
 <tbody>
@@ -633,6 +448,16 @@ safo |>
   <tr>
    <td style="text-align:left;"> `text_pattern=` </td>
    <td style="text-align:left;"> modify the pattern of the text (e.g. `{label}\n {n} ({perc}%)`. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `perc_total=` </td>
+   <td style="text-align:left;"> should percentages be calculated using the total number of rows of the dataset?
+   </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> `sel_group=` </td>
+   <td style="text-align:left;"> select the group in which to perform the filter/split.
+   </td>
   </tr>
   <tr>
    <td style="text-align:left;"> `round_digits=` </td>
@@ -652,24 +477,8 @@ safo |>
    <td style="text-align:left;"> modify the font size of the text. </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> `text_fface=` </td>
-   <td style="text-align:left;"> modify the font face of the text. </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> `text_ffamily=` </td>
-   <td style="text-align:left;"> modify the font family of the text. </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> `text_padding=` </td>
-   <td style="text-align:left;"> modify the text padding inside the box. </td>
-  </tr>
-  <tr>
    <td style="text-align:left;"> `bg_fill=` </td>
    <td style="text-align:left;"> modify the background color of the box. </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> `border_color=` </td>
-   <td style="text-align:left;"> modify the border color of the box. </td>
   </tr>
 </tbody>
 </table>
@@ -678,28 +487,44 @@ safo |>
 
 ## Modify function arguments {auto-animate=true}
 
-- There are a number of other arguments that you can check in the vignette:
+- There are a number of other arguments that you can check in the website vignettes:
 
-<a href = "https://bruigtp.github.io/flowchart/articles/flowchart.html">
+<a href = "https://bruigtp.github.io/flowchart/articles/flowchart-customization.html">
 ![](WWW/vignette.png)
 </a>
 
-## `fc_modify()` {auto-animate="true"}
+## `fc_theme()` {auto-animate="true"}
 
--   We can modify the parameters of the created flowchart using the `fc_modify()` function:
+-   We can use the `fc_theme()` function to modify at once all arguments for all boxes:
 
-```{r echo=TRUE, fig.width = 4, fig.height = 5, out.width = "600"}
-#| classes: custom
+```{r echo=TRUE, fig.width = 6, fig.height = 5, out.width = "600"}
+#| classes: custom2
 #| output-location: "column"
 safo |> 
-  as_fc(label = "Patients assessed for eligibility") |>
-  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
+  dplyr::filter(!is.na(group)) |> 
+  as_fc(label = "Randomized patients") |>
+  fc_split(group) |> 
+  fc_draw()
+```
+
+## `fc_theme()` {auto-animate="true"}
+
+-   We can use the `fc_theme()` function to modify at once all arguments for all boxes:
+
+```{r echo=TRUE, fig.width = 6, fig.height = 5, out.width = "600"}
+#| classes: custom2
+#| output-location: "column"
+safo |> 
+  dplyr::filter(!is.na(group)) |> 
+  as_fc(label = "Randomized patients") |>
+  fc_split(group) |>
+  fc_theme(text_pattern_init = "{label}, {n}", text_pattern = "{label}, {n}/{N}", text_fs = 11, text_color = "#324C54", text_fface = 2, bg_fill = "#ADD8E6") |> 
   fc_draw()
 ```
 
 ## `fc_modify()` {auto-animate="true"}
 
--   We can modify the parameters of the created flowchart using the `fc_modify()` function:
+-   We can also modify manually the parameters of the created flowchart using the `fc_modify()` function:
 
 ```{r echo=TRUE, eval=FALSE}
 safo |> 
@@ -718,7 +543,7 @@ safo |>
 
 ## `fc_modify()` {auto-animate="true"}
 
--   We can modify the parameters of the created flowchart using the `fc_modify()` function:
+-   We can also modify manually the parameters of the created flowchart using the `fc_modify()` function:
 
 ```{r echo=TRUE, fig.width = 7, fig.height = 5, out.width = "1500"}
 #| classes: custom2
@@ -736,57 +561,7 @@ safo |>
   fc_draw()
 ```
 
-# Combine flowcharts
-
-## `fc_merge()` {auto-animate="true"}
-
--   We can combine different flowcharts horizontally:
-
-::: columns
-::: {.column width="50%"}
-```{r echo=TRUE, fig.width = 4, fig.height = 4, out.width = "1000"}
-#| classes: custom
-fc1 <- safo |> 
-  as_fc(label = "Patients assessed for eligibility") |>
-  fc_filter(itt == "Yes", label = "Intention to treat (ITT)")
-
-fc_draw(fc1)
-```
-:::
-
-::: {.column width="50%"}
-```{r echo=TRUE, fig.width = 4, fig.height = 4, out.width = "800"}
-#| classes: custom
-fc2 <- safo |> 
-  as_fc(label = "Patients assessed for eligibility") |>
-  fc_filter(pp == "Yes", label = "Per protocol (PP)")
-
-fc_draw(fc2)
-```
-:::
-:::
-
-## `fc_merge()` {auto-animate="true"}
-
--   We can combine different flowcharts horizontally:
-
-```{r echo=TRUE, eval=FALSE}
-list(fc1, fc2) |>
-  fc_merge()
-```
-
-## `fc_merge()` {auto-animate="true"}
-
--   We can combine different flowcharts horizontally:
-
-```{r echo=TRUE, fig.width = 5, fig.height = 4, fig.align = "center", out.width = "800"}
-#| classes: custom2
-list(fc1, fc2) |>
-  fc_merge() |>
-  fc_draw()
-```
-
-# Export flowcharts
+# Export flowcharts {background-color="lightgrey"}
 
 ## `fc_export()` {auto-animate="true"}
 
@@ -831,7 +606,7 @@ safo |>
 
 - We can customize the size and resolution of the image to save.
 
-# Hands-on examples
+# Hands-on examples {background-color="lightgrey"}
 
 ## Example 1 {auto-animate="true"}
 
@@ -897,164 +672,19 @@ safo |>
   fc_draw()
 ```
 
-## Example 2 {auto-animate=true}
-
-- Now let's try to customize it in order to exactly reproduce the original flowchart of the SAFO study published in Nature Medicine:
+## Example 1
 
 <center>
 ![](WWW/safo.png){width="40%"}
 </center>
 
-## Example 2 {auto-animate=true}
-
-- First, we have to build the text in the exclude boxes:
-
-```{r}
-#| output-location: "slide"
-
-#For the first exclude box:
-label_exc <- paste(
-  c(str_glue("{sum(safo$inclusion_crit == 'Yes' | safo$exclusion_crit == 'Yes' | safo$decline_part == 'Yes', na.rm = T)} excluded:"),
-    map_chr(c("inclusion_crit", "decline_part", "exclusion_crit"), ~str_glue("{sum(safo[[.x]] == 'Yes', na.rm = TRUE)} {attr(safo[[.x]], 'label')}")),
-    map_chr(4:15, ~str_glue(" -  {sum(safo[[.x]] == 'Yes')} {attr(safo[[.x]], 'label')}"))),
-  collapse = "\n")
-
-label_exc <- gsub("exclusion criteria", "exclusion criteria:", label_exc)
-  
-cat(label_exc)
-```
-
-## Example 2 {auto-animate=true}
-
-- First, we have to build the text in the exclude boxes:
-
-```{r}
-#| output-location: "slide"
-
-#For the PP exclude box (cloxacillin plus fosfomycin):
-safo1 <- safo |> 
-    filter(group == "cloxacillin plus fosfomycin", !is.na(reason_pp)) |> 
-    mutate(reason_pp = droplevels(reason_pp))
-
-label_exc1 <- paste(
-    c(str_glue("{nrow(safo1)} excluded:"),
-      map_chr(levels(safo1$reason_pp), ~str_glue(" -  {sum(safo1$reason_pp == .x)} {.x}"))),
-    collapse = "\n")
-
-label_exc1 <- str_replace_all(label_exc1, c("nosocomial" = "nosocomial\n", "treatment" = "treatment\n"))
-
-cat(label_exc1)
-```
-
-## Example 2 {auto-animate=true}
-
-- First, we have to build the text in the exclude boxes:
-
-```{r}
-#| output-location: "slide"
-
-safo2 <- safo |> 
-  filter(group == "cloxacillin alone", !is.na(reason_pp)) |> 
-  mutate(reason_pp = droplevels(reason_pp))
-
-label_exc2 <- paste(
-  c(str_glue("{nrow(safo2)} excluded:"),
-    map_chr(levels(safo2$reason_pp), ~str_glue(" -  {sum(safo2$reason_pp == .x)} {.x}"))),
-  collapse = "\n")
-
-label_exc2 <- str_replace_all(label_exc2, c("resistant" = "resistant\n", "blood" = "blood\n"))
-
-cat(label_exc2)
-```
+<center><small> Grillo, S., Pujol, M., Miró, J.M. et al. Cloxacillin plus fosfomycin versus cloxacillin alone for methicillin-susceptible <i>Staphylococcus aureus</i> bacteremia: a randomized trial. Nat Med 29, 2518--2525 (2023). <href>https://doi.org/10.1038/s41591-023-02569-0</href> </small></center>
 
 ## Example 2 {auto-animate="true"}
-
-```{r}
-#| output-location: "slide"
-safo |> 
-  as_fc(label = "patients assessed for eligibility", text_pattern = "{N} {label}") |>
-  fc_draw()
-```
-
-## Example 2 {auto-animate="true"}
-
-```{r}
-#| output-location: "slide"
-safo |> 
-  as_fc(label = "patients assessed for eligibility", text_pattern = "{N} {label}") |>
-  fc_filter(!is.na(group), label = "randomized", text_pattern = "{n} {label}", show_exc = TRUE, just_exc = "left", text_pattern_exc = "{label}", label_exc = label_exc, text_fs_exc = 7, offset_exc = 0.15) |> 
-  fc_draw()
-```
-
-## Example 2 {auto-animate="true"}
-
-```{r, fig.height = 6}
-#| output-location: "slide"
-safo |> 
-  as_fc(label = "patients assessed for eligibility", text_pattern = "{N} {label}") |>
-  fc_filter(!is.na(group), label = "randomized", text_pattern = "{n} {label}", show_exc = TRUE, just_exc = "left", text_pattern_exc = "{label}", label_exc = label_exc, text_fs_exc = 7, offset_exc = 0.15) |> 
-  fc_split(group, text_pattern = "{n} assigned\n {label}") |> 
-  fc_draw()
-```
-
-## Example 2 {auto-animate="true"}
-
-```{r, fig.height = 7}
-#| classes: custom3
-#| output-location: "slide"
-
-safo |> 
-  as_fc(label = "patients assessed for eligibility", text_pattern = "{N} {label}") |>
-  fc_filter(!is.na(group), label = "randomized", text_pattern = "{n} {label}", show_exc = TRUE, just_exc = "left", text_pattern_exc = "{label}", label_exc = label_exc, text_fs_exc = 7, offset_exc = 0.15) |> 
-  fc_split(group, text_pattern = "{n} assigned\n {label}") |> 
-  fc_filter(itt == "Yes", label = "included in intention-to-treat\n population", show_exc = TRUE, text_pattern = "{n} {label}", label_exc = "patient did not receive allocated\n treatment (withdrew consent)", text_pattern_exc = "{n} {label}", text_fs_exc = 7) |> 
-  fc_draw()
-```
-
-## Example 2 {auto-animate="true"}
-
-```{r, fig.height = 8}
-#| classes: custom6
-#| output-location: "slide"
-
-safo |> 
-  as_fc(label = "patients assessed for eligibility", text_pattern = "{N} {label}") |>
-  fc_filter(!is.na(group), label = "randomized", text_pattern = "{n} {label}", show_exc = TRUE, just_exc = "left", text_pattern_exc = "{label}", label_exc = label_exc, text_fs_exc = 7, offset_exc = 0.15) |> 
-  fc_split(group, text_pattern = "{n} assigned\n {label}") |> 
-  fc_filter(itt == "Yes", label = "included in intention-to-treat\n population", show_exc = TRUE, text_pattern = "{n} {label}", label_exc = "patient did not receive allocated\n treatment (withdrew consent)", text_pattern_exc = "{n} {label}", text_fs_exc = 7) |> 
-  fc_filter(pp == "Yes", label = "included in per-protocol\n population", show_exc = TRUE, just_exc = "left", text_pattern = "{n} {label}", text_fs_exc = 7) |> 
-  fc_draw()
-```
-
-## Example 2 {auto-animate=true}
-
-- Now let's use `fc_modify()` to change the existing texts for the ones we created:
-
-```{r, fig.height = 9.2}
-#| classes: custom7
-#| output-location: "slide"
-
-safo |> 
-  as_fc(label = "patients assessed for eligibility", text_pattern = "{N} {label}") |> 
-  fc_filter(!is.na(group), label = "randomized", text_pattern = "{n} {label}", show_exc = TRUE, just_exc = "left", text_pattern_exc = "{label}", label_exc = label_exc, text_fs_exc = 7, offset_exc = 0.15) |>
-  fc_split(group, text_pattern = "{n} asssigned\n {label}") |> 
-  fc_filter(itt == "Yes", label = "included in intention-to-treat\n population", show_exc = TRUE, text_pattern = "{n} {label}", label_exc = "patient did not receive allocated\n treatment (withdrew consent)", text_pattern_exc = "{n} {label}", text_fs_exc = 7) |>
-  fc_filter(pp == "Yes", label = "included in per-protocol\n population", show_exc = TRUE, just_exc = "left", text_pattern = "{n} {label}", text_fs_exc = 7, offset_exc = c(0, -0.01)) |> 
-  fc_modify(
-    ~.x |> 
-      filter(n != 0) |> 
-      mutate(
-        text = case_when(id == 11 ~ label_exc1, id == 13 ~ label_exc2, TRUE ~ text)
-      )
-  ) |> 
-  fc_draw()
-```
-
-## Example 3 {auto-animate="true"}
 
 -   Now, we will create a flowchart without any dataset using the `N=` argument:
 
-## Example 3 {auto-animate="true"}
+## Example 2 {auto-animate="true"}
 
 ```{r echo=TRUE, fig.width = 3, fig.height = 3, out.width = "800"}
 #| classes: custom
@@ -1063,7 +693,7 @@ as_fc(N = 300, label = "Available patients") |>
   fc_draw()
 ```
 
-## Example 3 {auto-animate="true"}
+## Example 2 {auto-animate="true"}
 
 ```{r echo=TRUE, fig.width = 4, fig.height = 4, out.width = "800"}
 #| classes: custom
@@ -1073,7 +703,7 @@ as_fc(N = 300, label = "Available patients") |>
   fc_draw()
 ```
 
-## Example 3 {auto-animate="true"}
+## Example 2 {auto-animate="true"}
 
 ```{r echo=TRUE, fig.width = 4, fig.height = 5, out.width = "600"}
 #| classes: custom
@@ -1084,7 +714,7 @@ as_fc(N = 300, label = "Available patients") |>
   fc_draw()
 ```
 
-## Example 3 {auto-animate="true"}
+## Example 2 {auto-animate="true"}
 
 ```{r echo=TRUE, fig.width = 4, fig.height = 5.5, out.width = "600"}
 #| classes: custom5
@@ -1096,7 +726,7 @@ as_fc(N = 300, label = "Available patients") |>
   fc_draw()
 ```
 
-# Conclusions
+# Conclusions {background-color="lightgrey"}
 
 ## Conclusions
 
@@ -1109,11 +739,6 @@ as_fc(N = 300, label = "Available patients") |>
 
 -   As a limitation, we have not considered all possible scenarios and study designs, although is highly customizable.
 
--   As future developments:
-
-    -   Define style themes using a function `fc_theme()`.
-
-    -   Shiny application.
 :::
 
 ## Conclusions
@@ -1150,7 +775,7 @@ Douglas G. Altman
 
 ## Contact
 
-IGTP Biostatistics Support and Research Unit:
+**IGTP Biostatistics Support and Research Unit:**
 
 ::: columns
 ::: {.column width="20%"}
@@ -1173,7 +798,7 @@ Cristian Tebé
 Lucia Blanc
 :::
 :::
-<br>
+<br><br>
 <center>
 `r fontawesome::fa("github")` [github.com/bruigtp](https://github.com/bruigtp/)
 </center>
@@ -1193,37 +818,16 @@ Lucia Blanc
 :::
 :::
 
-## Thank you!
+## Thank you! {background-color="lightgrey"}
 
 <br>
-<br>
-<br>
-<br>
-
-::: columns
-
-:::  {.column width="40%"}
-
-<div style = "margin-top: -20%">
-<center>
-
-![](WWW/logo.png){width="75%"}
-</center>
-</div>
-:::
-
-:::  {.column width="60%"}
 
 <center>
 
-Useful links:
+Website:
 
-`r fontawesome::fa("github")` [github.com/bruigtp](https://github.com/bruigtp/)
+![](WWW/qr-code.png){width="30%"}
 
 `r fontawesome::fa("globe")` [https://bruigtp.github.io/flowchart/](https://bruigtp.github.io/flowchart/)
 
 </center>
-
-:::
-
-:::

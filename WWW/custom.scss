@@ -4,6 +4,7 @@ $body-bg: white;
 $body-color: black;
 $link-color:  #E0B046;
 $presentation-font-size-root: 30px;
+$presentation-h1-bg: lightgrey;
 $presentation-h1-font-size: 2.5em;
 $presentation-h2-font-size: 1.4em;
 $presentation-heading-text-transform: none;
@@ -99,4 +100,10 @@ h1.title {
 }
 .reveal .custom7 img {
   margin-top: -9.6%;  
+}
+
+/*new code for update in blood theme*/
+.reveal code,
+.reveal p code {
+  background-color: transparent;
 }
