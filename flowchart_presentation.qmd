@@ -61,90 +61,15 @@ editor_options:
 
 - In clinical research, the CONSORT, STROBE and ICH guidelines strongly recommend the use of flowcharts.
 
-## Flowchart creation
+## Flowchart creation 
 
-- The creation of these flowcharts is a joint task between the data management team and the statisticians.
-
-- It is time-consuming and labor-intensive, as every screened or recruited subject must be included, without exception.
+- The creation of flowcharts are time-consuming and labor-intensive, as every screened or recruited subject must be included, without exception.
 
 - Usually this process must be repeated many times until the database is closed for analysis. 
 
-## Flowchart packages
-
 - There are several R packages dedicated to building flowcharts: {Gmisc}, {DiagrammeR}, {consort}, {ggflowchart}.
 
-- Some involve complex programming and manual parameterization and others are designed for building other kind of diagrams.
-
-## {Gmisc} package
-
-```{r}
-#| output-location: slide
-
-library(Gmisc, quietly = TRUE)
-library(glue)
-library(htmlTable)
-library(grid)
-library(magrittr)
-
-org_cohort <- boxGrob(glue("Stockholm population",
-                           "n = {pop}",
-                           pop = txtInt(1632798),
-                           .sep = "\n"))
-eligible <- boxGrob(glue("Eligible",
-                          "n = {pop}",
-                           pop = txtInt(10032),
-                           .sep = "\n"))
-included <- boxGrob(glue("Randomized",
-                         "n = {incl}",
-                         incl = txtInt(122),
-                         .sep = "\n"))
-grp_a <- boxGrob(glue("Treatment A",
-                      "n = {recr}",
-                      recr = txtInt(43),
-                      .sep = "\n"))
-
-grp_b <- boxGrob(glue("Treatment B",
-                      "n = {recr}",
-                      recr = txtInt(122 - 43 - 30),
-                      .sep = "\n"))
-
-excluded <- boxGrob(glue("Excluded (n = {tot}):",
-                         " - not interested: {uninterested}",
-                         " - contra-indicated: {contra}",
-                         tot = 30,
-                         uninterested = 12,
-                         contra = 30 - 12,
-                         .sep = "\n"),
-                    just = "left")
-
-grid.newpage()
-vert <- spreadVertical(org_cohort,
-                       eligible = eligible,
-                       included = included,
-                       grps = grp_a)
-grps <- alignVertical(reference = vert$grps,
-                      grp_a, grp_b) %>%
-  spreadHorizontal()
-vert$grps <- NULL
-
-excluded <- moveBox(excluded,
-                    x = .8,
-                    y = coords(vert$included)$top + distance(vert$eligible, vert$included, half = TRUE, center = FALSE))
-
-for (i in 1:(length(vert) - 1)) {
-  connectGrob(vert[[i]], vert[[i + 1]], type = "vert") %>%
-    print
-}
-connectGrob(vert$included, grps[[1]], type = "N")
-connectGrob(vert$included, grps[[2]], type = "N")
-
-connectGrob(vert$eligible, excluded, type = "L")
-
-# Print boxes
-vert
-grps
-excluded
-```
+- Some involve complex programming and manual parameterization and others are designed for building other kind of diagrams. 
 
 # The {flowchart} package {background-color="lightgrey"}
 
@@ -159,18 +84,15 @@ excluded
 
 ::: {.column width="5%"}
 
-<hr style="width:2px; height:400px; background-color:#E0B046; border:none; margin-top: 30% !important; margin:0 auto; " />
+<hr style="width:2px; height:370px; background-color:#E0B046; border:none; margin-top: 30% !important; margin:0 auto; " />
 
 :::
 
 ::: {.column width="65%"}
 
+- It produces flowcharts that automatically adapt to the study database, ensuring reproducibility.
 
-- It adapts the {Gmisc} package to the tidyverse and makes it more automatizable.
-
-- From the study database we have to define a set of simple operations combined with the pipe operator (`|>` or `%>%`).
-
-- It automatically adapts to the study database allowing reproducibility.
+- It follows the tidyverse philosophy: from the study database we have to define a set of simple operations combined with the pipe operator (`|>` or `%>%`).
 
 - These functions are highly customizable allowing manual parameters to be entered if necessary.
 
@@ -449,24 +371,10 @@ safo |>
    <td style="text-align:left;"> `text_pattern=` </td>
    <td style="text-align:left;"> modify the pattern of the text (e.g. `{label}\n {n} ({perc}%)`. </td>
   </tr>
-  <tr>
-   <td style="text-align:left;"> `perc_total=` </td>
-   <td style="text-align:left;"> should percentages be calculated using the total number of rows of the dataset?
-   </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> `sel_group=` </td>
-   <td style="text-align:left;"> select the group in which to perform the filter/split.
-   </td>
-  </tr>
-  <tr>
+   <tr>
    <td style="text-align:left;"> `round_digits=` </td>
    <td style="text-align:left;"> number of digits to round percentages (default is 2)
    </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> `just=` </td>
-   <td style="text-align:left;"> modify the justification for the text. </td>
   </tr>
   <tr>
    <td style="text-align:left;"> `text_color=` </td>
@@ -485,81 +393,9 @@ safo |>
 
 :::
 
-## Modify function arguments {auto-animate=true}
+<center>...</center> 
 
-- There are a number of other arguments that you can check in the website vignettes:
-
-<a href = "https://bruigtp.github.io/flowchart/articles/flowchart-customization.html">
-![](WWW/vignette.png)
-</a>
-
-## `fc_theme()` {auto-animate="true"}
-
--   We can use the `fc_theme()` function to modify at once all arguments for all boxes:
-
-```{r echo=TRUE, fig.width = 6, fig.height = 5, out.width = "600"}
-#| classes: custom2
-#| output-location: "column"
-safo |> 
-  dplyr::filter(!is.na(group)) |> 
-  as_fc(label = "Randomized patients") |>
-  fc_split(group) |> 
-  fc_draw()
-```
-
-## `fc_theme()` {auto-animate="true"}
-
--   We can use the `fc_theme()` function to modify at once all arguments for all boxes:
-
-```{r echo=TRUE, fig.width = 6, fig.height = 5, out.width = "600"}
-#| classes: custom2
-#| output-location: "column"
-safo |> 
-  dplyr::filter(!is.na(group)) |> 
-  as_fc(label = "Randomized patients") |>
-  fc_split(group) |>
-  fc_theme(text_pattern_init = "{label}, {n}", text_pattern = "{label}, {n}/{N}", text_fs = 11, text_color = "#324C54", text_fface = 2, bg_fill = "#ADD8E6") |> 
-  fc_draw()
-```
-
-## `fc_modify()` {auto-animate="true"}
-
--   We can also modify manually the parameters of the created flowchart using the `fc_modify()` function:
-
-```{r echo=TRUE, eval=FALSE}
-safo |> 
-  as_fc(label = "Patients assessed for eligibility") |>
-  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
-  fc_view("fc")
-```
-
-```{r echo=FALSE, fig.width = 4, fig.height = 5, out.width = "600"}
-safo |> 
-  as_fc(label = "Patients assessed for eligibility") |>
-  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
-  fc_view("fc") |> 
-  gt::gt() 
-```
-
-## `fc_modify()` {auto-animate="true"}
-
--   We can also modify manually the parameters of the created flowchart using the `fc_modify()` function:
-
-```{r echo=TRUE, fig.width = 7, fig.height = 5, out.width = "1500"}
-#| classes: custom2
-#| output-location: "slide"
-safo |> 
-  as_fc(label = "Patients assessed for eligibility") |>
-  fc_filter(!is.na(group), label = "Randomized", show_exc = TRUE) |> 
-  fc_modify(
-    ~ . |> 
-      mutate(
-        text = ifelse(id == 3, str_glue("- {sum(safo$inclusion_crit == 'Yes')} not met the inclusion criteria\n- {sum(safo$exclusion_crit == 'Yes')} met the exclusion criteria"), text),
-        x = ifelse(id == 3, 0.75, x)
-      )
-  ) |> 
-  fc_draw()
-```
+-   We can use the `fc_theme()` function to modify at once all arguments for all boxes.
 
 # Export flowcharts {background-color="lightgrey"}
 
@@ -741,63 +577,8 @@ as_fc(N = 300, label = "Available patients") |>
 
 :::
 
-## Conclusions
+## Code repository
 
-<br>
-
-::: columns
-::: {.column width="30%"}
-<center>
-![](WWW/douglas_altman.jpeg){width="80%"}
-</center>
-:::
-::: {.column width="70%"}
-<blockquote>
-<p>
-“Readers should not have to infer what was probably
-done; they should be told explicitly.”
-</p>
-</blockquote>
-<figcaption>
-Douglas G. Altman
-</figcaption>
-:::
-:::
-
-## More information
-
--   You can visit the {flowchart} website: <a href = "https://bruigtp.github.io/flowchart/">https://bruigtp.github.io/flowchart/</a>
-
-<center>
-
-![](WWW/flowchart_website.png){width="75%"}
-</center>
-
-## Contact
-
-**IGTP Biostatistics Support and Research Unit:**
-
-::: columns
-::: {.column width="20%"}
-Pau Satorra
-:::
-
-::: {.column width="20%"}
-João Carmezim
-:::
-
-::: {.column width="20%"}
-Natàlia Pallarès
-:::
-
-::: {.column width="20%"}
-Cristian Tebé
-:::
-
-::: {.column width="20%"}
-Lucia Blanc
-:::
-:::
 <br><br>
 <center>
 `r fontawesome::fa("github")` [github.com/bruigtp](https://github.com/bruigtp/)
@@ -818,7 +599,7 @@ Lucia Blanc
 :::
 :::
 
-## Thank you! {background-color="lightgrey"}
+# Thank you! {.thankyou}
 
 <br>
 
@@ -828,6 +609,6 @@ Website:
 
 ![](WWW/qr-code.png){width="30%"}
 
-`r fontawesome::fa("globe")` [https://bruigtp.github.io/flowchart/](https://bruigtp.github.io/flowchart/)
+`r fontawesome::fa("globe")` <a href="https://bruigtp.github.io/flowchart/" style = "color: #E0B046; font-weight: bold;">bruigtp.github.io/flowchart</a>
 
 </center>
