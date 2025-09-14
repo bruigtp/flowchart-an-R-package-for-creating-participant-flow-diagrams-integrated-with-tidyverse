@@ -21,13 +21,6 @@
     "text": "{flowchart}\n\n\n\n\n\n\n\n\n\n\n\nIt produces flowcharts that automatically adapt to the study database, ensuring reproducibility.\nIt follows the tidyverse philosophy: from the study database we have to define a set of simple operations combined with the pipe operator (|&gt; or %&gt;%).\nThese functions are highly customizable allowing manual parameters to be entered if necessary.\n\n\n\nPublished in CRAN since February 2024:"
   },
   {
-    "objectID": "flowchart_presentation.html#flowchart-1",
-    "href": "flowchart_presentation.html#flowchart-1",
-    "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
-    "section": "{flowchart}",
-    "text": "{flowchart}\n\n\nAlexander Calder (1898-1976)"
-  },
-  {
     "objectID": "flowchart_presentation.html#overview-of-the-package",
     "href": "flowchart_presentation.html#overview-of-the-package",
     "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
@@ -39,7 +32,7 @@
     "href": "flowchart_presentation.html#safo-dataset",
     "title": "{flowchart}: A Tidy R Package for Data Flowchart Generation",
     "section": "safo dataset",
-    "text": "safo dataset\n\nIt’s the built-in dataset of the package.\nRandomly generated dataset from the SAFO clinical trial1.\n\n\n\n\n\n\n\n\n\nID\ndid not meet inclusion criteria\nmet exclusion criteria\ndeclined to participate\ntreatment received\nintention to treat (ITT)\nper protocol (PP)\n\n\n\n\n1\nYes\nNo\nNA\nNA\nNA\nNA\n\n\n2\nNo\nNo\nYes\nNA\nNA\nNA\n\n\n3\nNo\nNo\nNo\ncloxacillin plus fosfomycin\nYes\nYes\n\n\n4\nNo\nYes\nNA\nNA\nNA\nNA\n\n\n5\nNo\nNo\nNo\ncloxacillin plus fosfomycin\nYes\nYes\n\n\n6\nNo\nYes\nNA\nNA\nNA\nNA\n\n\n\n\n\n\n\nGrillo, S., Pujol, M., Miró, J.M. et al. Cloxacillin plus fosfomycin versus cloxacillin alone for methicillin-susceptible Staphylococcus aureus bacteremia: a randomized trial. Nat Med 29, 2518–2525 (2023)"
+    "text": "safo dataset\n\nIt’s the built-in dataset of the package.\nRandomly generated dataset from the SAFO clinical trial1.\n\n\n\n\n\n\n\n\n\nID\ndid not meet inclusion criteria\nmet exclusion criteria\ndeclined to participate\ntreatment received\nintention to treat (ITT)\nper protocol (PP)\n\n\n\n\n1\nYes\nNo\nNA\nNA\nNA\nNA\n\n\n2\nNo\nNo\nYes\nNA\nNA\nNA\n\n\n3\nNo\nNo\nNo\ncloxacillin plus fosfomycin\nYes\nYes\n\n\n4\nNo\nYes\nNA\nNA\nNA\nNA\n\n\n5\nNo\nNo\nNo\ncloxacillin plus fosfomycin\nYes\nYes\n\n\n9\nNo\nNo\nNo\ncloxacillin alone\nYes\nYes\n\n\n\n\n\n\n\nGrillo, S., Pujol, M., Miró, J.M. et al. Cloxacillin plus fosfomycin versus cloxacillin alone for methicillin-susceptible Staphylococcus aureus bacteremia: a randomized trial. Nat Med 29, 2518–2525 (2023)"
   },
   {
     "objectID": "flowchart_presentation.html#as_fc",

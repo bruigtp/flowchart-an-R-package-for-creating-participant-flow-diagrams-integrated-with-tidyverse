@@ -111,15 +111,6 @@ Published in CRAN since February 2024:
 [<img src="https://cranlogs.r-pkg.org/badges/grand-total/flowchart" height="30">](https://cran.r-project.org/package=flowchart)
 </center>
 
-## {flowchart}
-
-<center>
-![](WWW/alexander_calder.jpg){width="70%"}
-
-Alexander Calder (1898-1976)
-
-</center>
-
 ## Overview of the package
 
 <br>
@@ -176,7 +167,7 @@ Alexander Calder (1898-1976)
 ```{r echo=FALSE}
 library(flowchart)
 library(tidyverse)
-head(safo[, c("id", "inclusion_crit", "exclusion_crit", "decline_part", "group", "itt", "pp")]) |> 
+safo[c(1:5,9), c("id", "inclusion_crit", "exclusion_crit", "decline_part", "group", "itt", "pp")] |> 
   gt::gt() |> 
   gt::cols_align("center")
 ```
@@ -269,7 +260,7 @@ safo |>
 
 -   We can filter an existing flowchart specifying the logic in which the filter is to be applied:
 
-```{r echo=TRUE, fig.width = 3, fig.height = 2, out.width = "600"}
+```{r echo=TRUE, fig.width = 3, fig.height = 2, out.width = "500"}
 #| classes: custom2
 #| output-location: "column"
 safo |> 
@@ -604,8 +595,6 @@ as_fc(N = 300, label = "Available patients") |>
 <br>
 
 <center>
-
-Website:
 
 ![](WWW/qr-code.png){width="30%"}
 
