@@ -168,6 +168,7 @@ Published in CRAN since February 2024:
 library(flowchart)
 library(tidyverse)
 safo[c(1:5,9), c("id", "inclusion_crit", "exclusion_crit", "decline_part", "group", "itt", "pp")] |> 
+  mutate(id = row_number()) |> 
   gt::gt() |> 
   gt::cols_align("center")
 ```
